@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    @Value("${oauth.jwt.secret}") // secret_key
+    @Value("${oauth.jwt.secret}")
     private String jwtSecret;
 
     @Override

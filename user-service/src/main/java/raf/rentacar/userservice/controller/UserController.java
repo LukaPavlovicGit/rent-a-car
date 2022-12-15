@@ -17,29 +17,27 @@ import springfox.documentation.annotations.ApiIgnore;
 public class UserController {
 
     private UserService userService;
-    private SecurityAspect securityAspect;
 
-    public UserController(UserService userService, SecurityAspect securityAspect) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.securityAspect = securityAspect;
     }
 
     @GetMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
     public ResponseEntity<Page<UserDto>> getUsers(@RequestHeader("authorization") String authorization,
                                                   @ApiIgnore Pageable pageable) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAll(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
     @PostMapping("/create-client")
     public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto) {
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createClient(clientDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/create-manager")
@@ -49,7 +47,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(@RequestBody TokenRequestDto tokenRequestDto) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(userService.login(tokenRequestDto), HttpStatus.OK);
     }
 
     @PutMapping("/update-admin")
@@ -75,6 +73,14 @@ public class UserController {
         //Long clientId = securityAspect.getUserId(authorization);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+    @PutMapping("/change-password")
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
+    public ResponseEntity<ClientDto> changePassword(@RequestHeader("authorization") String authorization){
+        //Long clientId = securityAspect.getUserId(authorization);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
     @DeleteMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
     public ResponseEntity<Object> deleteUser(@RequestHeader("authorization") String authorization){

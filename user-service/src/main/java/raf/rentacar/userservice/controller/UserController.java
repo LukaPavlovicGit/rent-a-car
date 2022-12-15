@@ -42,7 +42,7 @@ public class UserController {
 
     @PostMapping("/create-manager")
     public ResponseEntity<ManagerDto> createManager(@RequestBody ManagerDto managerDto) {
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createManager(managerDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

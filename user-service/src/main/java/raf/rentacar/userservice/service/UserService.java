@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.expression.AccessException;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raf.rentacar.userservice.domain.Rank;
@@ -31,6 +32,7 @@ public class UserService {
     private RankRepository rankRepository;
     private TokenService tokenService;
     private Mapper mapper;
+    private JmsTemplate jmsTemplate;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository, RankRepository rankRepository, TokenService tokenService, Mapper mapper) {
         this.userRepository = userRepository;
@@ -79,11 +81,11 @@ public class UserService {
         if(user.isPresent())
             throw new UserCreationException(String.format("User with email: %s already exist!", managerDto.getEmail()));
 
-        User client = mapper.managerDtoToUser(managerDto);
+        User manager = mapper.managerDtoToUser(managerDto);
         Role role = roleRepository.findRoleByName("ROLE_MANAGER").orElseThrow(() -> new NotFoundException("Role with role_name: ROLE_CLIENT not found!"));
 
-        client.setRole(role);
-        userRepository.save(client);
+        manager.setRole(role);
+        userRepository.save(manager);
 
         return managerDto;
     }

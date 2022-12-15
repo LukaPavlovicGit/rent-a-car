@@ -28,10 +28,10 @@ public class Mapper {
         return new User(clientDto.getUsername(),clientDto.getUsername(),clientDto.getFirstName(),clientDto.getLastName(),
                 clientDto.getEmail(),clientDto.getPhoneNumber(),clientDto.getBirthdate(),clientDto.getPassport());
     }
+
     public User managerDtoToUser(ManagerDto managerDto){
-        return null;
-//        return new User(clientDto.getUsername(),clientDto.getUsername(),clientDto.getFirstName(),clientDto.getLastName(),
-//                clientDto.getEmail(),clientDto.getPhoneNumber(),clientDto.getBirthdate(),clientDto.getPassport());
+        return new User(managerDto.getUsername(),managerDto.getPassword(),managerDto.getFirstName(),managerDto.getLastName(),
+                managerDto.getEmail(),managerDto.getPhoneNumber(),managerDto.getBirthdate(),managerDto.getCompanyName(),managerDto.getHireDate());
     }
 
 }

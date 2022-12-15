@@ -19,7 +19,7 @@ public class User {
     private Date birthdate;
     @ManyToOne(optional = false)
     private Role role;
-    private Boolean activated;
+    private boolean activated;
 
     //manager
     private String companyName;
@@ -28,13 +28,14 @@ public class User {
     //user
     private String passport;
     private Integer totalDays;
+    private boolean forbidden;
+    @ManyToOne
+    private Rank rank;
 
-    public User(){
-
-    }
+    public User(){}
 
     // za kreiranje admina
-    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Date birthdate, Role role) {
+    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Date birthdate) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -42,11 +43,10 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthdate = birthdate;
-        this.role = role;
     }
 
     // za kreiranje managera
-    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Date birthdate, Role role, String companyName, Date hireDate) {
+    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Date birthdate, String companyName, Date hireDate) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -54,15 +54,12 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthdate = birthdate;
-        this.role = role;
-        this.activated = false;
         this.companyName = companyName;
         this.hireDate = hireDate;
     }
 
     // za kreiranje klienta
-
-    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Date birthdate, Role role, String passport, Integer totalDays) {
+    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, Date birthdate, String passport) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -70,10 +67,12 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthdate = birthdate;
-        this.role = role;
-        this.activated = false;
         this.passport = passport;
-        this.totalDays = totalDays;
+        this.totalDays = 0;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -140,11 +139,11 @@ public class User {
         this.role = role;
     }
 
-    public Boolean getActivated() {
+    public boolean isActivated() {
         return activated;
     }
 
-    public void setActivated(Boolean activated) {
+    public void setActivated(boolean activated) {
         this.activated = activated;
     }
 
@@ -178,5 +177,21 @@ public class User {
 
     public void setTotalDays(Integer totalDays) {
         this.totalDays = totalDays;
+    }
+
+    public boolean isForbidden() {
+        return forbidden;
+    }
+
+    public void setForbidden(boolean forbidden) {
+        this.forbidden = forbidden;
+    }
+
+    public Rank getRank() {
+        return rank;
+    }
+
+    public void setRank(Rank rank) {
+        this.rank = rank;
     }
 }

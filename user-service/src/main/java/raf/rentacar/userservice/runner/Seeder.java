@@ -3,29 +3,53 @@ package raf.rentacar.userservice.runner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import raf.rentacar.userservice.domain.Rank;
 import raf.rentacar.userservice.domain.Role;
+import raf.rentacar.userservice.domain.User;
+import raf.rentacar.userservice.repository.RankRepository;
 import raf.rentacar.userservice.repository.RoleRepository;
+import raf.rentacar.userservice.repository.UserRepository;
+
+import java.sql.Date;
 
 @Profile({"default"})
 @Component
 public class Seeder implements CommandLineRunner {
 
     private RoleRepository roleRepository;
+    private UserRepository userRepository;
+    private RankRepository rankRepository;
 
-    public Seeder(RoleRepository roleRepository){
+    public Seeder(RoleRepository roleRepository, UserRepository userRepository, RankRepository rankRepository){
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.rankRepository = rankRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
         //Insert roles
-        Role roleClient = new Role("ROLE_CLIENT");
         Role roleAdmin = new Role("ROLE_ADMIN");
         Role roleManager = new Role("ROLE_MANAGER");
-        roleRepository.save(roleClient);
+        Role roleClient = new Role("ROLE_CLIENT");
         roleRepository.save(roleAdmin);
         roleRepository.save(roleManager);
+        roleRepository.save(roleClient);
+
+        //Insert ranks
+        Rank platinum = new Rank("PLATINUM", 8, 20);
+        Rank gold = new Rank("GOLD", 4, 10);
+        Rank silver = new Rank("SILVER", 2, 5);
+        rankRepository.save(platinum);
+        rankRepository.save(gold);
+        rankRepository.save(silver);
+
+        //Insert admin
+        User admin = new User("admin", "admin", "Luka", "Pavlovic", "admin@gmail.com","0641234567", Date.valueOf("1990-10-10"));
+        admin.setRole(roleAdmin);
+        admin.setActivated(true);
+        userRepository.save(admin);
 
     }
 }

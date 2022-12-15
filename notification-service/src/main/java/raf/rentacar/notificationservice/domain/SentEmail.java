@@ -13,14 +13,16 @@ public class SentEmail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
+    private String subject;
     private String text;
     private String email;
     private Date dateSent;
 
     public SentEmail() { }
 
-    public SentEmail(String type, String text, String email, Date dateSent) {
+    public SentEmail(String type, String subject, String text, String email, Date dateSent) {
         this.type = type;
+        this.subject = subject;
         this.text = text;
         this.email = email;
         this.dateSent = dateSent;
@@ -30,12 +32,24 @@ public class SentEmail {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getText() {

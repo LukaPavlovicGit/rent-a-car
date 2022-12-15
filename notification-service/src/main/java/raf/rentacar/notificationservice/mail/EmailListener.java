@@ -35,7 +35,7 @@ public class EmailListener {
     @JmsListener(destination = "${destination.sendEmail}", concurrency = "5-10")
     public void sendNotification(Message message) throws JMSException {
         MessageTransferDto messageTransferDto = messageHelper.getMessage(message, MessageTransferDto.class);
-        Email notification = emailRepository.findNotificationByType(messageTransferDto.getType())
+        Email email = emailRepository.findNotificationByType(messageTransferDto.getType())
                 .orElseThrow(() -> new NotFoundException(String.format("Email with a type: %s doesn't exist!", messageTransferDto.getType())));
 
 //        String messageToSend = notification.getMessage();

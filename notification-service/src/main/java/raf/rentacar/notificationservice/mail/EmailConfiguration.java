@@ -1,4 +1,4 @@
-package raf.rentacar.notificationservice.configuration;
+package raf.rentacar.notificationservice.mail;
 
 
 import org.springframework.context.annotation.Bean;

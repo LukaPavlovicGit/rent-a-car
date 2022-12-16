@@ -73,14 +73,13 @@ public class UserService {
         userRepository.save(client);
 
         MessageTransferDto messageTransferDto = new MessageTransferDto(
-                "account_activation",
                 client.getFirstName(),
                 client.getLastName(),
                 "http://localhost:8000/api/users/account-activation/"+client.getId(),
                 client.getEmail()
         );
 
-        jmsTemplate.convertAndSend("send_email_queue", messageHelper.createTextMessage(messageTransferDto));
+        jmsTemplate.convertAndSend("account_activation_queue", messageHelper.createTextMessage(messageTransferDto));
 
         return clientDto;
     }
@@ -102,14 +101,13 @@ public class UserService {
         userRepository.save(manager);
 
         MessageTransferDto messageTransferDto = new MessageTransferDto(
-                "account_activation",
                 manager.getFirstName(),
                 manager.getLastName(),
                 "http://localhost:8000/api/users/account-activation/"+manager.getId(),
                 manager.getEmail()
         );
 
-        jmsTemplate.convertAndSend("send_email_queue", messageHelper.createTextMessage(messageTransferDto));
+        jmsTemplate.convertAndSend("account_activation_queue", messageHelper.createTextMessage(messageTransferDto));
 
         return managerDto;
     }
@@ -198,6 +196,30 @@ public class UserService {
         userRepository.save(client);
 
         return mapper.userToUserDto(client);
+    }
+    public Void changePassword(String authorization, PasswordDto passwordDto){
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long id = claims.get("id", Integer.class).longValue();
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        user.setPassword(passwordDto.getPassword());
+        userRepository.save(user);
+
+        MessageTransferDto messageTransferDto = new MessageTransferDto(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail()
+        );
+
+        jmsTemplate.convertAndSend("password_change_queue", messageHelper.createTextMessage(messageTransferDto));
+
+        return null;
+    }
+    public UserDto deleteUser(String authorization){
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long id = claims.get("id", Integer.class).longValue();
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        userRepository.deleteById(id);
+        return mapper.userToUserDto(user);
     }
 
     public Void accountActivation(Long id){

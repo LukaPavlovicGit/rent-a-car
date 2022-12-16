@@ -86,9 +86,8 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @PostMapping("/account-activation")
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
-    public ResponseEntity<Object> accountActivation(@RequestHeader("authorization") String authorization){
+    @RequestMapping("/account-activation/{id}")
+    public ResponseEntity<Object> accountActivation(@PathVariable("id") Long id){
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
@@ -105,4 +104,5 @@ public class UserController {
                                                 @PathVariable("id") Long id){
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
 }

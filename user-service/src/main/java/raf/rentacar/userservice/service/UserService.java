@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.expression.AccessException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,7 @@ import raf.rentacar.userservice.exception.AccessForbidden;
 import raf.rentacar.userservice.exception.NotFoundException;
 import raf.rentacar.userservice.exception.UserCreationException;
 import raf.rentacar.userservice.mapper.Mapper;
+import raf.rentacar.userservice.messageHelper.MessageHelper;
 import raf.rentacar.userservice.repository.RankRepository;
 import raf.rentacar.userservice.repository.RoleRepository;
 import raf.rentacar.userservice.repository.UserRepository;
@@ -33,13 +33,17 @@ public class UserService {
     private TokenService tokenService;
     private Mapper mapper;
     private JmsTemplate jmsTemplate;
+    private MessageHelper messageHelper;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, RankRepository rankRepository, TokenService tokenService, Mapper mapper) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, RankRepository rankRepository,
+                       TokenService tokenService, Mapper mapper, JmsTemplate jmsTemplate, MessageHelper messageHelper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.rankRepository = rankRepository;
         this.tokenService = tokenService;
         this.mapper = mapper;
+        this.jmsTemplate = jmsTemplate;
+        this.messageHelper = messageHelper;
     }
 
     public Page<UserDto> getAll(Pageable pageable){
@@ -68,6 +72,16 @@ public class UserService {
         client.setRank(rank);
         userRepository.save(client);
 
+        MessageTransferDto messageTransferDto = new MessageTransferDto(
+                "account_activation",
+                client.getFirstName(),
+                client.getLastName(),
+                "http://localhost:8000/api/users/account-activation/"+client.getId(),
+                client.getEmail()
+        );
+
+        jmsTemplate.convertAndSend("send_email_queue", messageHelper.createTextMessage(messageTransferDto));
+
         return clientDto;
     }
 
@@ -86,6 +100,16 @@ public class UserService {
 
         manager.setRole(role);
         userRepository.save(manager);
+
+        MessageTransferDto messageTransferDto = new MessageTransferDto(
+                "account_activation",
+                manager.getFirstName(),
+                manager.getLastName(),
+                "http://localhost:8000/api/users/account-activation/"+manager.getId(),
+                manager.getEmail()
+        );
+
+        jmsTemplate.convertAndSend("send_email_queue", messageHelper.createTextMessage(messageTransferDto));
 
         return managerDto;
     }
@@ -107,4 +131,6 @@ public class UserService {
         //Generate token
         return new TokenResponseDto(tokenService.generate(claims));
     }
+
+
 }

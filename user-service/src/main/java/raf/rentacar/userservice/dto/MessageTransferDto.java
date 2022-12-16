@@ -11,7 +11,15 @@ public class MessageTransferDto {
 
     public MessageTransferDto() { }
 
-    public MessageTransferDto(String firstName, String lastname, String link, String car, String email, String rezStart) {
+    public MessageTransferDto(String type, String firstName, String lastname, String link, String email){
+        this.type = type;
+        this.firstName = firstName;
+        this.lastname = lastname;
+        this.link = link;
+        this.email = email;
+    }
+    public MessageTransferDto(String type, String firstName, String lastname, String link, String car, String email, String rezStart) {
+        this.type = type;
         this.firstName = firstName;
         this.lastname = lastname;
         this.link = link;

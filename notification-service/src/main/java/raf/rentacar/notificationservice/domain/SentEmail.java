@@ -13,27 +13,23 @@ public class SentEmail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
+    private String destinationEmail;
     private String subject;
-    private String text;
-    private String email;
+    private String message;
     private Date dateSent;
 
     public SentEmail() { }
 
-    public SentEmail(String type, String subject, String text, String email, Date dateSent) {
+    public SentEmail(String type, String subject, String message, String destinationEmail, Date dateSent) {
         this.type = type;
         this.subject = subject;
-        this.text = text;
-        this.email = email;
+        this.message = message;
+        this.destinationEmail = destinationEmail;
         this.dateSent = dateSent;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getType() {
@@ -44,6 +40,14 @@ public class SentEmail {
         this.type = type;
     }
 
+    public String getDestinationEmail() {
+        return destinationEmail;
+    }
+
+    public void setDestinationEmail(String destinationEmail) {
+        this.destinationEmail = destinationEmail;
+    }
+
     public String getSubject() {
         return subject;
     }
@@ -52,20 +56,12 @@ public class SentEmail {
         this.subject = subject;
     }
 
-    public String getText() {
-        return text;
+    public String getMessage() {
+        return message;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Date getDateSent() {

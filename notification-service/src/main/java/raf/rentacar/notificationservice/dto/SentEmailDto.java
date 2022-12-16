@@ -6,16 +6,16 @@ public class SentEmailDto {
 
     private Long id;
     private String type;
-    private String text;
-    private String email;
+    private String message;
+    private String destinationEmail;
     private Date dateSent;
 
     public SentEmailDto() { }
 
-    public SentEmailDto(String type, String text, String email, Date dateSent) {
+    public SentEmailDto(String type, String message, String destinationEmail, Date dateSent) {
         this.type = type;
-        this.text = text;
-        this.email = email;
+        this.message = message;
+        this.destinationEmail = destinationEmail;
         this.dateSent = dateSent;
     }
 
@@ -31,20 +31,20 @@ public class SentEmailDto {
         this.type = type;
     }
 
-    public String getText() {
-        return text;
+    public String getMessage() {
+        return message;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDestinationEmail() {
+        return destinationEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDestinationEmail(String destinationEmail) {
+        this.destinationEmail = destinationEmail;
     }
 
     public Date getDateSent() {

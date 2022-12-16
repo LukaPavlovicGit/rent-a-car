@@ -11,8 +11,6 @@ import raf.rentacar.notificationservice.repository.SentEmailRepository;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
-import java.util.Date;
-import java.util.Map;
 
 @Component
 @Transactional
@@ -35,15 +33,21 @@ public class EmailListener {
     @JmsListener(destination = "${destination.sendEmail}", concurrency = "5-10")
     public void sendNotification(Message message) throws JMSException {
         MessageTransferDto messageTransferDto = messageHelper.getMessage(message, MessageTransferDto.class);
+        System.out.println(messageTransferDto.getFirstName() + " " + messageTransferDto.getLastname() + "\n" + messageTransferDto.getLink() + " " + messageTransferDto.getType());
         Email email = emailRepository.findNotificationByType(messageTransferDto.getType())
                 .orElseThrow(() -> new NotFoundException(String.format("Email with a type: %s doesn't exist!", messageTransferDto.getType())));
 
-//        String messageToSend = notification.getMessage();
-//        for (Map.Entry<String,String> entry : messageTransferDto.getParameters().entrySet()) {
-//            messageToSend = messageToSend.replace(entry.getKey(), entry.getValue());
-//        }
-//
-//        emailService.sendEmail(messageTransferDto.getEmail(), notification.getSubject(), messageToSend);
+        String sentTo = messageTransferDto.getEmail();
+        String subject = email.getSubject();
+
+        String messageToSend = email.getText();
+        messageToSend = messageToSend.replaceAll("%name", messageTransferDto.getFirstName());
+        messageToSend = messageToSend.replaceAll("%lastname", messageTransferDto.getLastname());
+        messageToSend = messageToSend.replaceAll("%link", messageTransferDto.getLink());
+        messageToSend = messageToSend.replaceAll("%car", messageTransferDto.getCar());
+        messageToSend = messageToSend.replaceAll("%rezStart", messageTransferDto.getRezStart());
+
+        emailService.sendEmail(sentTo, subject, messageToSend);
 //        createArchivedNotification(messageTransferDto.getType(), messageTransferDto.getEmail(), notification.getSubject(), messageToSend);
     }
 

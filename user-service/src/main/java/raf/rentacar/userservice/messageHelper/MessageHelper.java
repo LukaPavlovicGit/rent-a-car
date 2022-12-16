@@ -3,12 +3,11 @@ package raf.rentacar.userservice.messageHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
-
+import org.springframework.validation.Validator;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,17 +27,18 @@ public class MessageHelper {
         try {
             String json = ((TextMessage) message).getText();
             T data = objectMapper.readValue(json, clazz);
+            return data;
+//            Set<ConstraintViolation<T>> violations = validator.validate(data);
+//            if (violations.isEmpty()) {
+//                return data;
+//            }
 
-            Set<ConstraintViolation<T>> violations = validator.validate(data);
-            if (violations.isEmpty()) {
-                return data;
-            }
-
-            printViolationsAndThrowException(violations);
-            return null;
+//            printViolationsAndThrowException(violations);
+//            return null;
         } catch (IOException exception) {
             throw new RuntimeException("Message parsing fails.", exception);
         }
+//        return null;
     }
 
     public String createTextMessage(Object object) {

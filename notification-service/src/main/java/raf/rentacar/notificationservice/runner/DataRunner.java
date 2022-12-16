@@ -19,15 +19,20 @@ public class DataRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Email e1 = new Email("account_activation",
-               "Hello %name %lastname, click the link to activate your account: %link!");
+                "account_activation",
+                "Hello %name %lastname, click the link to activate your account: %link!");
         Email e2 = new Email("change_password",
-               "Hello %name %lastname, your token is: %link!");
+                "change_password",
+                "Hello %name %lastname, your token is: %link!");
         Email e3 = new Email("reservation_successful",
-               "Hello %name %lastname, a reservation in %hotel was a success!");
+                "reservation_successful",
+                "Hello %name %lastname, a reservation for %car was a success!");
         Email e4 = new Email("reservation_cancellation",
-               "Hello %name %lastname, a reservation in %hotel was canceled successfully!");
+                "reservation_cancellation",
+                "Hello %name %lastname, a reservation for %car was canceled successfully!");
         Email e5 = new Email("reservation_reminder",
-                "Hello %name %lastname, your reservation in %hotel is on %rezStart!");
+                "reservation_reminder",
+                "Hello %name %lastname, your reservation for %car is on %rezStart!");
 
         emailRepository.save(e1);
         emailRepository.save(e2);

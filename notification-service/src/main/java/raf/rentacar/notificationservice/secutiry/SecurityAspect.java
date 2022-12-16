@@ -30,7 +30,7 @@ public class SecurityAspect {
         this.tokenService = tokenService;
     }
 
-    @Around("@annotation(raf.rentacar.userservice.secutiry.CheckSecurity)")
+    @Around("@annotation(raf.rentacar.notificationservice.secutiry.CheckSecurity)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         //Get method signature
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();

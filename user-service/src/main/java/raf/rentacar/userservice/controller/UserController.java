@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_CLIENT"})
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id){
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
@@ -59,7 +59,6 @@ public class UserController {
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<UserDto> updateManager(@RequestHeader("Authorization") String authorization,
                                                           @RequestBody UpdateManagerDto updateManagerDto){
-
         return new ResponseEntity<>(userService.updateManager(authorization, updateManagerDto), HttpStatus.OK);
     }
 
@@ -67,21 +66,19 @@ public class UserController {
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<UserDto> updateClient(@RequestHeader("Authorization") String authorization,
                                                         @RequestBody UpdateClientDto updateClientDto){
-
         return new ResponseEntity<>(userService.updateClient(authorization, updateClientDto), HttpStatus.OK);
     }
 
     @PutMapping("/change-password")
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
-    public ResponseEntity<ClientDto> changePassword(@RequestHeader("Authorization") String authorization){
-
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_CLIENT"})
+    public ResponseEntity<Void> changePassword(@RequestHeader("Authorization") String authorization,
+                                                @RequestBody PasswordDto passwordDto){
+        return new ResponseEntity<>(userService.changePassword(authorization, passwordDto), HttpStatus.OK);
     }
 
     @DeleteMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_CLIENT"})
     public ResponseEntity<Object> deleteUser(@RequestHeader("Authorization") String authorization){
-        //Long clientId = securityAspect.getUserId(authorization);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 

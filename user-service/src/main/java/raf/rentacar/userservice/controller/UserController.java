@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
-    public ResponseEntity<Page<UserDto>> getUsers(@RequestHeader("authorization") String authorization,
+    public ResponseEntity<Page<UserDto>> getUsers(@RequestHeader("Authorization") String authorization,
                                                   @ApiIgnore Pageable pageable) {
         return new ResponseEntity<>(userService.getAll(pageable), HttpStatus.OK);
     }
@@ -50,57 +50,56 @@ public class UserController {
 
     @PutMapping("/update-admin")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<UserDto> updateAdmin(@RequestHeader("authorization") String authorization,
-                                               @RequestBody UserDto userDto){
-        //Long clientId = securityAspect.getUserId(authorization);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<UserDto> updateAdmin(@RequestHeader("Authorization") String authorization,
+                                                      @RequestBody UpdateAdminDto updateAdminDto){
+        return new ResponseEntity<>(userService.updateAdmin(authorization, updateAdminDto), HttpStatus.OK);
     }
 
     @PutMapping("/update-manager")
     @CheckSecurity(roles = {"ROLE_MANAGER"})
-    public ResponseEntity<ManagerDto> updateManager(@RequestHeader("authorization") String authorization,
-                                                   @RequestBody ManagerDto managerDto){
-        //Long clientId = securityAspect.getUserId(authorization);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<UserDto> updateManager(@RequestHeader("Authorization") String authorization,
+                                                          @RequestBody UpdateManagerDto updateManagerDto){
+
+        return new ResponseEntity<>(userService.updateManager(authorization, updateManagerDto), HttpStatus.OK);
     }
 
     @PutMapping("/update-client")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
-    public ResponseEntity<ClientDto> updateClient(@RequestHeader("authorization") String authorization,
-                                                  @RequestBody ClientDto clientDto){
-        //Long clientId = securityAspect.getUserId(authorization);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<UserDto> updateClient(@RequestHeader("Authorization") String authorization,
+                                                        @RequestBody UpdateClientDto updateClientDto){
+
+        return new ResponseEntity<>(userService.updateClient(authorization, updateClientDto), HttpStatus.OK);
     }
 
     @PutMapping("/change-password")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
-    public ResponseEntity<ClientDto> changePassword(@RequestHeader("authorization") String authorization){
-        //Long clientId = securityAspect.getUserId(authorization);
+    public ResponseEntity<ClientDto> changePassword(@RequestHeader("Authorization") String authorization){
+
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @DeleteMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER, ROLE_USER"})
-    public ResponseEntity<Object> deleteUser(@RequestHeader("authorization") String authorization){
+    public ResponseEntity<Object> deleteUser(@RequestHeader("Authorization") String authorization){
         //Long clientId = securityAspect.getUserId(authorization);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @RequestMapping("/account-activation/{id}")
-    public ResponseEntity<Object> accountActivation(@PathVariable("id") Long id){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<Void> accountActivation(@PathVariable("id") Long id){
+        return new ResponseEntity<>(userService.accountActivation(id), HttpStatus.OK);
     }
 
     @PostMapping("/ban-user/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<Object> banUser(@RequestHeader("authorization") String authorization,
+    public ResponseEntity<Object> banUser(@RequestHeader("Authorization") String authorization,
                                           @PathVariable("id") Long id){
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PostMapping("/remove-ban-user/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<Object> removeBanUser(@RequestHeader("authorization") String authorization,
+    public ResponseEntity<Object> removeBanUser(@RequestHeader("Authorization") String authorization,
                                                 @PathVariable("id") Long id){
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

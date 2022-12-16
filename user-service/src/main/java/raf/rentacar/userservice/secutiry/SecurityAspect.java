@@ -41,7 +41,7 @@ public class SecurityAspect {
 
             if (methodSignature.getParameterNames()[i].equals("authorization")) {
                 //Check bearer schema
-                if (joinPoint.getArgs()[i].toString().startsWith("token")) {
+                if (joinPoint.getArgs()[i].toString().startsWith("Bearer")) {
                     //Get token
                     token = joinPoint.getArgs()[i].toString().split(" ")[1];
                 }
@@ -70,21 +70,21 @@ public class SecurityAspect {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    public Long getUserId(String authorization) {
-        String token = authorization.split(" ")[1];
-        Claims claims = tokenService.parseToken(token);
-        return claims.get("id", Integer.class).longValue();
-    }
-
-    public String getUserEmail(String authorization) {
-        String token = authorization.split(" ")[1];
-        Claims claims = tokenService.parseToken(token);
-        return claims.get("email", String.class);
-    }
-
-    public String getUserRole(String authorization) {
-        String token = authorization.split(" ")[1];
-        Claims claims = tokenService.parseToken(token);
-        return claims.get("role", String.class);
-    }
+//    public Long getUserId(String authorization) {
+//        String token = authorization.split(" ")[1];
+//        Claims claims = tokenService.parseToken(token);
+//        return claims.get("id", Integer.class).longValue();
+//    }
+//
+//    public String getUserEmail(String authorization) {
+//        String token = authorization.split(" ")[1];
+//        Claims claims = tokenService.parseToken(token);
+//        return claims.get("email", String.class);
+//    }
+//
+//    public String getUserRole(String authorization) {
+//        String token = authorization.split(" ")[1];
+//        Claims claims = tokenService.parseToken(token);
+//        return claims.get("role", String.class);
+//    }
 }

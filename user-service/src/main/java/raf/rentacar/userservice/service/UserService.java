@@ -132,5 +132,78 @@ public class UserService {
         return new TokenResponseDto(tokenService.generate(claims));
     }
 
+    public UserDto updateAdmin(String authorization, UpdateAdminDto updateAdminDto){
 
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long id = claims.get("id", Integer.class).longValue();
+
+        User admin = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+
+        if(updateAdminDto.getUsername() != null)
+            admin.setUsername(updateAdminDto.getUsername());
+        if(updateAdminDto.getFirstName() != null)
+            admin.setFirstName(updateAdminDto.getFirstName());
+        if(updateAdminDto.getLastName() != null)
+            admin.setLastName(updateAdminDto.getLastName());
+        if(updateAdminDto.getPhoneNumber() != null)
+            admin.setPhoneNumber(updateAdminDto.getPhoneNumber());
+        if(updateAdminDto.getBirthdate() != null)
+            admin.setBirthdate(updateAdminDto.getBirthdate());
+        userRepository.save(admin);
+
+        return mapper.userToUserDto(admin);
+    }
+
+    public UserDto updateManager(String authorization, UpdateManagerDto updateManagerDto){
+
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long id = claims.get("id", Integer.class).longValue();
+
+        User manager = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+
+        if(updateManagerDto.getUsername() != null)
+            manager.setUsername(updateManagerDto.getUsername());
+        if(updateManagerDto.getFirstName() != null)
+            manager.setFirstName(updateManagerDto.getFirstName());
+        if(updateManagerDto.getLastName() != null)
+            manager.setLastName(updateManagerDto.getLastName());
+        if(updateManagerDto.getPhoneNumber() != null)
+            manager.setPhoneNumber(updateManagerDto.getPhoneNumber());
+        if(updateManagerDto.getBirthdate() != null)
+            manager.setBirthdate(updateManagerDto.getBirthdate());
+        userRepository.save(manager);
+
+        return mapper.userToUserDto(manager);
+    }
+
+    public UserDto updateClient(String authorization, UpdateClientDto updateClientDto){
+
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long id = claims.get("id", Integer.class).longValue();
+
+        User client = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+
+        if(updateClientDto.getUsername() != null)
+            client.setUsername(updateClientDto.getUsername());
+        if(updateClientDto.getFirstName() != null)
+            client.setFirstName(updateClientDto.getFirstName());
+        if(updateClientDto.getLastName() != null)
+            client.setLastName(updateClientDto.getLastName());
+        if(updateClientDto.getPhoneNumber() != null)
+            client.setPhoneNumber(updateClientDto.getPhoneNumber());
+        if(updateClientDto.getBirthdate() != null)
+            client.setBirthdate(updateClientDto.getBirthdate());
+        if(updateClientDto.getPassport() != null)
+            client.setPassport(updateClientDto.getPassport());
+        userRepository.save(client);
+
+        return mapper.userToUserDto(client);
+    }
+
+    public Void accountActivation(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        user.setActivated(true);
+        userRepository.save(user);
+        return null;
+    }
 }

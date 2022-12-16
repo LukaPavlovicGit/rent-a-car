@@ -41,7 +41,7 @@ public class SecurityAspect {
 
             if (methodSignature.getParameterNames()[i].equals("authorization")) {
                 //Check bearer schema
-                if (joinPoint.getArgs()[i].toString().startsWith("token")) {
+                if (joinPoint.getArgs()[i].toString().startsWith("Bearer")) {
                     //Get token
                     token = joinPoint.getArgs()[i].toString().split(" ")[1];
                 }

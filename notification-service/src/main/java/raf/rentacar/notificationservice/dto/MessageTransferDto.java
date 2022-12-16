@@ -1,39 +1,54 @@
 package raf.rentacar.notificationservice.dto;
 
 public class MessageTransferDto {
-    private String type;
+
     private String firstName;
     private String lastname;
     private String link;
     private String car;
-    private String email;
+    private String destinationEmail;
     private String rezStart;
 
     public MessageTransferDto() { }
 
-    public MessageTransferDto(String type, String firstName, String lastname, String link, String email){
-        this.type = type;
+    // account_activation
+    public MessageTransferDto(String firstName, String lastname, String link, String destinationEmail){
         this.firstName = firstName;
         this.lastname = lastname;
         this.link = link;
-        this.email = email;
+        this.destinationEmail = destinationEmail;
     }
-    public MessageTransferDto(String type, String firstName, String lastname, String link, String car, String email, String rezStart) {
-        this.type = type;
+
+    // change_password
+    public MessageTransferDto(String firstName, String lastname, String destinationEmail) {
         this.firstName = firstName;
         this.lastname = lastname;
-        this.link = link;
+        this.destinationEmail = destinationEmail;
+    }
+
+    // reservation_successful
+    public MessageTransferDto(String firstName, String lastname, String car, String destinationEmail, boolean x){
+        this.firstName = firstName;
+        this.lastname = lastname;
+        this.link = car;
+        this.destinationEmail = destinationEmail;
+    }
+
+    // reservation_cancellation
+    public MessageTransferDto(String firstName, String lastname, String car, String destinationEmail, Boolean x){
+        this.firstName = firstName;
+        this.lastname = lastname;
+        this.link = car;
+        this.destinationEmail = destinationEmail;
+    }
+
+    // reservation_reminder
+    public MessageTransferDto(String firstName, String lastname, String car, String destinationEmail, String rezStart) {
+        this.firstName = firstName;
+        this.lastname = lastname;
         this.car = car;
-        this.email = email;
+        this.destinationEmail = destinationEmail;
         this.rezStart = rezStart;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getFirstName() {
@@ -68,12 +83,12 @@ public class MessageTransferDto {
         this.car = car;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDestinationEmail() {
+        return destinationEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDestinationEmail(String destinationEmail) {
+        this.destinationEmail = destinationEmail;
     }
 
     public String getRezStart() {

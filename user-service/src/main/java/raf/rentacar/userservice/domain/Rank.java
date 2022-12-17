@@ -12,16 +12,16 @@ public class Rank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Integer reach;
+    private Integer lowerBound;
+    private Integer upperBound;
     private Integer discount;
 
-    public Rank(){
+    public Rank(){ }
 
-    }
-
-    public Rank(String name, Integer reach, Integer discount) {
+    public Rank(String name, Integer lowerBound, Integer upperBound, Integer discount) {
         this.name = name;
-        this.reach = reach;
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
         this.discount = discount;
     }
 
@@ -33,12 +33,20 @@ public class Rank {
         this.name = name;
     }
 
-    public Integer getReach() {
-        return reach;
+    public Integer getLowerBound() {
+        return lowerBound;
     }
 
-    public void setReach(Integer reach) {
-        this.reach = reach;
+    public void setLowerBound(Integer lowerBound) {
+        this.lowerBound = lowerBound;
+    }
+
+    public Integer getUpperBound() {
+        return upperBound;
+    }
+
+    public void setUpperBound(Integer upperBound) {
+        this.upperBound = upperBound;
     }
 
     public Integer getDiscount() {

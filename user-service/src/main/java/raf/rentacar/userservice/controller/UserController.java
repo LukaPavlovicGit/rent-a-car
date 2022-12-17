@@ -1,5 +1,6 @@
 package raf.rentacar.userservice.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -79,7 +80,7 @@ public class UserController {
     @DeleteMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_CLIENT"})
     public ResponseEntity<Object> deleteUser(@RequestHeader("Authorization") String authorization){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(userService.deleteUser(authorization), HttpStatus.OK);
     }
 
     @RequestMapping("/account-activation/{id}")
@@ -89,16 +90,36 @@ public class UserController {
 
     @PostMapping("/ban-user/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<Object> banUser(@RequestHeader("Authorization") String authorization,
+    public ResponseEntity<UserDto> banUser(@RequestHeader("Authorization") String authorization,
                                           @PathVariable("id") Long id){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(userService.banUser(id), HttpStatus.OK);
     }
 
     @PostMapping("/remove-ban-user/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<Object> removeBanUser(@RequestHeader("Authorization") String authorization,
-                                                @PathVariable("id") Long id){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<UserDto> removeBanOnUser(@RequestHeader("Authorization") String authorization,
+                                                 @PathVariable("id") Long id){
+        return new ResponseEntity<>(userService.removeBanOnUser(id), HttpStatus.OK);
     }
 
+    @PutMapping("/increment-reservations/{id}")
+    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    public ResponseEntity<UserDto> incrementTotalDays(@RequestHeader("Authorization") String authorization,
+                                                      @PathVariable("id") Long id,
+                                                      @RequestParam Integer numberOfDays){
+        return new ResponseEntity<>(userService.incrementTotalDays(authorization, id, numberOfDays), HttpStatus.OK);
+    }
+
+    @PutMapping("/decrement-reservations/{id}")
+    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    public ResponseEntity<UserDto> decrementTotalDays(@RequestHeader("Authorization") String authorization,
+                                                      @PathVariable("id") Long id,
+                                                      @RequestParam Integer numberOfDays){
+        return new ResponseEntity<>(userService.decrementTotalDays(authorization, id, numberOfDays), HttpStatus.OK);
+    }
+
+    @GetMapping("/discount/{userId}")
+    public ResponseEntity<Integer> getDiscount(@PathVariable("userId") Long userId) {
+        return new ResponseEntity<>(userService.getDiscount(userId), HttpStatus.OK);
+    }
 }

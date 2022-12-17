@@ -21,6 +21,7 @@ import raf.rentacar.userservice.repository.RoleRepository;
 import raf.rentacar.userservice.repository.UserRepository;
 import raf.rentacar.userservice.secutiry.tokenService.TokenService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -227,5 +228,56 @@ public class UserService {
         user.setActivated(true);
         userRepository.save(user);
         return null;
+    }
+
+    public UserDto banUser(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        user.setForbidden(true);
+        userRepository.save(user);
+        return mapper.userToUserDto(user);
+    }
+
+    public UserDto removeBanOnUser(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        user.setForbidden(false);
+        userRepository.save(user);
+        return mapper.userToUserDto(user);
+    }
+
+    public UserDto incrementTotalDays(String authorization, Long id, Integer numberOfDays) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        user.setTotalDays(user.getTotalDays() + numberOfDays);
+        if(user.getTotalDays() == user.getRank().getUpperBound())
+            assignRankToUser(user);
+        userRepository.save(user);
+        return mapper.userToUserDto(user);
+    }
+
+    public UserDto decrementTotalDays(String authorization, Long id, Integer numberOfDays) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        if(user.getTotalDays() == 0)
+            return mapper.userToUserDto(user);
+        user.setTotalDays(user.getTotalDays() - numberOfDays);
+        if(user.getTotalDays() < 0)
+            user.setTotalDays(0);
+        if(user.getTotalDays() < user.getRank().getLowerBound())
+            assignRankToUser(user);
+        userRepository.save(user);
+        return mapper.userToUserDto(user);
+    }
+
+    private void assignRankToUser(User user){
+        List<Rank> ranks = rankRepository.findAll();
+        for(Rank rank : ranks){
+            if(user.getTotalDays() >= rank.getLowerBound() && user.getTotalDays() < rank.getUpperBound()){
+                user.setRank(rank);
+                return;
+            }
+        }
+    }
+
+    public Integer getDiscount(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
+        return user.getRank().getDiscount();
     }
 }

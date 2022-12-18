@@ -9,18 +9,16 @@ public class Review {
     private Long id;
     private Integer rate;
     private String comment;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "veicle_id", nullable = false)
-    private Vehicle vehicle;
+    private Integer vehicleId;
 
     public Review() {
 
     }
 
-    public Review(Integer rate, String comment, Vehicle vehicle) {
+    public Review(Integer rate, String comment, Integer vehicleId) {
         this.rate = rate;
         this.comment = comment;
-        this.vehicle = vehicle;
+        this.vehicleId = vehicleId;
     }
 
     public Long getId() {
@@ -43,11 +41,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    public Integer getVehicle() {
+        return vehicleId;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicle(Integer vehicleId) {
+        this.vehicleId = vehicleId;
     }
 }

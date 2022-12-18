@@ -10,6 +10,7 @@ public class Vehicle {
     private String type;
     private String name;
     private Double price;
+    private boolean available = true;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
@@ -50,6 +51,14 @@ public class Vehicle {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public Company getCompany() {

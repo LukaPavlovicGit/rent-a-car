@@ -26,6 +26,13 @@ public class CompanyController {
                                                          @ApiIgnore Pageable pageable) {
         return new ResponseEntity<>(companyService.getCompanies(pageable), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
+    public ResponseEntity<CompanyDto> getCompany(@RequestHeader("Authorization") String authorization,
+                                                       @PathVariable("id") Long id) {
+        return new ResponseEntity<>(companyService.getCompany(id), HttpStatus.OK);
+    }
     @PostMapping
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<CompanyDto> createCompany(@RequestHeader("Authorization") String authorization,
@@ -42,7 +49,7 @@ public class CompanyController {
 
     @DeleteMapping
     @CheckSecurity(roles = {"ROLE_MANAGER"})
-    public ResponseEntity<Page<CompanyDto>> deleteCompany(@RequestHeader("Authorization") String authorization) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<CompanyDto> deleteCompany(@RequestHeader("Authorization") String authorization) {
+        return new ResponseEntity<>(companyService.deleteCompany(authorization), HttpStatus.OK);
     }
 }

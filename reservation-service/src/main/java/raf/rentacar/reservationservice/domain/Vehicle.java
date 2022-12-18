@@ -18,6 +18,13 @@ public class Vehicle {
     public Vehicle() {
 
     }
+
+    public Vehicle(String type, String name, Double price) {
+        this.type = type;
+        this.name = name;
+        this.price = price;
+    }
+
     public Vehicle(String type, String name, Double price, Company company) {
         this.type = type;
         this.name = name;

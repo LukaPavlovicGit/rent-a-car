@@ -30,6 +30,12 @@ public class CompanyService {
         return companyRepository.findAll(pageable).map(mapper::companyToCompanyDto);
     }
 
+    public CompanyDto getCompany(Long id) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Company with id: %d not found!", id)));
+        return mapper.companyToCompanyDto(company);
+    }
+
     public CompanyDto createCompany(String authorization, CompanyDto companyDto){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long managerId = claims.get("id", Integer.class).longValue();
@@ -56,7 +62,7 @@ public class CompanyService {
         return mapper.companyToCompanyDto(company);
     }
 
-    public CompanyDto deleteCompany(String authorization, CompanyDto companyDto){
+    public CompanyDto deleteCompany(String authorization){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long managerId = claims.get("id", Integer.class).longValue();
         Company company = companyRepository.findCompanyByManagerId(managerId)

@@ -3,5 +3,5 @@ package raf.rentacar.reservationservice.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class VehicleController {
+public class ReviewController {
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import raf.rentacar.reservationservice.dto.CompanyDto;
+import raf.rentacar.reservationservice.dto.VehicleDto;
 import raf.rentacar.reservationservice.secutiry.CheckSecurity;
 import raf.rentacar.reservationservice.service.CompanyService;
 import springfox.documentation.annotations.ApiIgnore;
@@ -33,6 +34,12 @@ public class CompanyController {
                                                        @PathVariable("id") Long id) {
         return new ResponseEntity<>(companyService.getCompany(id), HttpStatus.OK);
     }
+
+    @GetMapping("/vehicles")
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
+    public ResponseEntity<Page<VehicleDto>> getVehicles(@RequestHeader("Authorization") String authorization) {
+        return new ResponseEntity<>(companyService.getVehicles(authorization), HttpStatus.OK);
+    }
     @PostMapping
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<CompanyDto> createCompany(@RequestHeader("Authorization") String authorization,
@@ -40,7 +47,7 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.createCompany(authorization, companyDto), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PutMapping
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<CompanyDto> updateCompany(@RequestHeader("Authorization") String authorization,
                                                     @RequestBody CompanyDto companyDto) {

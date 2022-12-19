@@ -23,7 +23,6 @@ public class Company {
         this.name = name;
         this.city = city;
         this.description = description;
-        this.vehicles = vehicles;
     }
     public Company(Long managerId, String name, String city, String description, Set<Vehicle> vehicles) {
         this.managerId = managerId;

@@ -21,7 +21,6 @@ import raf.rentacar.userservice.repository.RoleRepository;
 import raf.rentacar.userservice.repository.UserRepository;
 import raf.rentacar.userservice.secutiry.tokenService.TokenService;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,7 +46,7 @@ public class UserService {
         this.messageHelper = messageHelper;
     }
 
-    public Page<UserDto> getAll(Pageable pageable){
+    public Page<UserDto> getUsers(Pageable pageable){
         return userRepository.findAll(pageable).map(mapper::userToUserDto);
     }
 
@@ -267,8 +266,7 @@ public class UserService {
     }
 
     private void assignRankToUser(User user){
-        List<Rank> ranks = rankRepository.findAll();
-        for(Rank rank : ranks){
+        for(Rank rank : rankRepository.findAll()){
             if(user.getTotalDays() >= rank.getLowerBound() && user.getTotalDays() < rank.getUpperBound()){
                 user.setRank(rank);
                 return;

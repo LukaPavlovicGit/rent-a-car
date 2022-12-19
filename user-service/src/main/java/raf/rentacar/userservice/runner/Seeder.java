@@ -50,12 +50,18 @@ public class Seeder implements CommandLineRunner {
         admin.setRole(roleAdmin);
         admin.setActivated(true);
 
-//        User client = new User("c1", "c1", "c1", "c1", "lukapavlovic032@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
-//        client.setRole(roleClient);
-//        client.setRank(silver);
-//        client.setActivated(true);
+        User manager = new User("m1", "m1", "m1", "m1", "m1@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
+        manager.setRole(roleManager);
+        manager.setRank(silver);
+        manager.setActivated(true);
+
+        User client = new User("c1", "c1", "c1", "c1", "c1@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
+        client.setRole(roleClient);
+        client.setRank(silver);
+        client.setActivated(true);
 
         userRepository.save(admin);
-//        userRepository.save(client);
+        userRepository.save(manager);
+        userRepository.save(client);
     }
 }

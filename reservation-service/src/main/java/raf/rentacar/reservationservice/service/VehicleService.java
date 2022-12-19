@@ -81,7 +81,7 @@ public class VehicleService {
                 orElseThrow(() -> new NotFoundException(String.format("The vehicle with id: %d is not found!", id)));
         if(vehicle.getCompany().getManagerId() != managerId)
             throw new UnauthorizedOperation(String.format("The manager with id: %d is not authorized to fetch car with id: %d!", managerId, id));
-        //String type, String name, Double price
+        
         if(vehicleDto.getType() != null && !vehicleDto.getType().trim().isEmpty())
             vehicle.setType(vehicleDto.getType());
         if(vehicleDto.getName() != null && !vehicleDto.getName().trim().isEmpty())

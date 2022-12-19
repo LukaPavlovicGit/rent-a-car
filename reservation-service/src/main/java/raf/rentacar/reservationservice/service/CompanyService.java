@@ -2,15 +2,22 @@ package raf.rentacar.reservationservice.service;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raf.rentacar.reservationservice.domain.Company;
+import raf.rentacar.reservationservice.domain.Vehicle;
 import raf.rentacar.reservationservice.dto.CompanyDto;
+import raf.rentacar.reservationservice.dto.VehicleDto;
 import raf.rentacar.reservationservice.exception.NotFoundException;
 import raf.rentacar.reservationservice.mapper.Mapper;
 import raf.rentacar.reservationservice.repository.CompanyRepository;
 import raf.rentacar.reservationservice.secutiry.tokenService.TokenService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,6 +41,16 @@ public class CompanyService {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Company with id: %d not found!", id)));
         return mapper.companyToCompanyDto(company);
+    }
+
+    public Page<VehicleDto> getVehicles(String authorization) {
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long managerId = claims.get("id", Integer.class).longValue();
+        Company company = companyRepository.findCompanyByManagerId(managerId)
+                .orElseThrow(() -> new NotFoundException(String.format("The company whose manager has id: %d is not found!", managerId)));
+
+        List<Vehicle> list = new ArrayList<>(company.getVehicles());
+        return new PageImpl<>(list.stream().map(mapper::vehicleToVehicleDto).collect(Collectors.toList()));
     }
 
     public CompanyDto createCompany(String authorization, CompanyDto companyDto){

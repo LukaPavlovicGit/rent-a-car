@@ -274,8 +274,8 @@ public class UserService {
         }
     }
 
-    public Integer getDiscount(Long id) {
+    public DiscountDto getDiscount(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
-        return user.getRank().getDiscount();
+        return new DiscountDto(user.getRank().getDiscount());
     }
 }

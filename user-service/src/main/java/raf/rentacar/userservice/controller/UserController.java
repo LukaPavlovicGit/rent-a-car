@@ -119,7 +119,7 @@ public class UserController {
     }
 
     @GetMapping("/discount/{userId}")
-    public ResponseEntity<Integer> getDiscount(@PathVariable("userId") Long userId) {
+    public ResponseEntity<DiscountDto> getDiscount(@PathVariable("userId") Long userId) {
         return new ResponseEntity<>(userService.getDiscount(userId), HttpStatus.OK);
     }
 }

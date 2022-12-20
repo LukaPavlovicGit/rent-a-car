@@ -2,8 +2,10 @@ package raf.rentacar.reservationservice.mapper;
 
 import org.springframework.stereotype.Component;
 import raf.rentacar.reservationservice.domain.Company;
+import raf.rentacar.reservationservice.domain.Reservation;
 import raf.rentacar.reservationservice.domain.Vehicle;
 import raf.rentacar.reservationservice.dto.CompanyDto;
+import raf.rentacar.reservationservice.dto.ReservationDto;
 import raf.rentacar.reservationservice.dto.VehicleDto;
 
 @Component
@@ -20,5 +22,12 @@ public class Mapper {
     }
     public Vehicle vehicleDtoToVehicle(VehicleDto vehicleDto){
         return new Vehicle(vehicleDto.getType(),vehicleDto.getName(),vehicleDto.getPrice());
+    }
+    public ReservationDto reservationToReservationDto(Reservation reservation){
+        return new ReservationDto(reservation.getId(),reservation.getUserId(),reservation.getUserMail(),reservation.getCompanyId(),reservation.getVehicleId(),
+                reservation.getStart(),reservation.getEnd(),reservation.getTotalPrice(),reservation.isCanceled());
+    }
+    public Reservation reservationDtoToReservation(ReservationDto reservationDto){
+        return new Reservation(reservationDto.getVehicleId(),reservationDto.getStart(),reservationDto.getEnd());
     }
 }

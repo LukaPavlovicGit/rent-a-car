@@ -25,11 +25,11 @@ public class ReservationController {
     @GetMapping
     @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Page<ReservationDto>> getReservations(@RequestHeader("Authorization") String authorization,
-                                                             @ApiIgnore Pageable pageable) {
+                                                                @ApiIgnore Pageable pageable) {
         return new ResponseEntity<>(reservationService.getReservations(pageable), HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/by-company")
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<Page<ReservationDto>> getReservationsByCompany(@RequestHeader("Authorization") String authorization) {
         return new ResponseEntity<>(reservationService.getReservationsByCompany(authorization), HttpStatus.OK);
@@ -65,7 +65,7 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<ReservationDto> deleteReservation(@RequestHeader("Authorization") String authorization,
-                                                        @PathVariable Long id) {
+                                                            @PathVariable Long id) {
         return new ResponseEntity<>(reservationService.deleteReservation(authorization, id), HttpStatus.OK);
     }
 }

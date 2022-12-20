@@ -1,6 +1,7 @@
 package raf.rentacar.reservationservice.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Vehicle {

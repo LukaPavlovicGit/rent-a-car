@@ -7,22 +7,37 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long userId;
     private Integer rate;
     private String comment;
-    private Integer vehicleId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     public Review() {
 
     }
-
-    public Review(Integer rate, String comment, Integer vehicleId) {
+    public Review(Integer rate, String comment) {
         this.rate = rate;
         this.comment = comment;
-        this.vehicleId = vehicleId;
+    }
+    public Review(Long userId, Integer rate, String comment, Company company) {
+        this.userId = userId;
+        this.rate = rate;
+        this.comment = comment;
+        this.company = company;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Integer getRate() {
@@ -41,11 +56,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public Integer getVehicle() {
-        return vehicleId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setVehicle(Integer vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

@@ -3,10 +3,9 @@ package raf.rentacar.reservationservice.mapper;
 import org.springframework.stereotype.Component;
 import raf.rentacar.reservationservice.domain.Company;
 import raf.rentacar.reservationservice.domain.Reservation;
+import raf.rentacar.reservationservice.domain.Review;
 import raf.rentacar.reservationservice.domain.Vehicle;
-import raf.rentacar.reservationservice.dto.CompanyDto;
-import raf.rentacar.reservationservice.dto.ReservationDto;
-import raf.rentacar.reservationservice.dto.VehicleDto;
+import raf.rentacar.reservationservice.dto.*;
 
 @Component
 public class Mapper {
@@ -29,5 +28,11 @@ public class Mapper {
     }
     public Reservation reservationDtoToReservation(ReservationDto reservationDto){
         return new Reservation(reservationDto.getVehicleId(),reservationDto.getStart(),reservationDto.getEnd());
+    }
+    public GetReviewDto reviewToReviewDto(Review review){
+        return new GetReviewDto(review.getRate(),review.getComment(),review.getCompany().getName(),review.getCompany().getCity());
+    }
+    public Review reviewDtoToReview(PostReviewDto postReviewDto){
+        return new Review(postReviewDto.getRate(),postReviewDto.getComment());
     }
 }

@@ -102,7 +102,7 @@ public class UserController {
         return new ResponseEntity<>(userService.removeBanOnUser(id), HttpStatus.OK);
     }
 
-    @PutMapping("/increment-reservations/{id}")
+    @PutMapping("/increment-days/{id}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<UserDto> incrementTotalDays(@RequestHeader("Authorization") String authorization,
                                                       @PathVariable("id") Long id,
@@ -110,7 +110,7 @@ public class UserController {
         return new ResponseEntity<>(userService.incrementTotalDays(authorization, id, numberOfDays), HttpStatus.OK);
     }
 
-    @PutMapping("/decrement-reservations/{id}")
+    @PutMapping("/decrement-days/{id}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<UserDto> decrementTotalDays(@RequestHeader("Authorization") String authorization,
                                                       @PathVariable("id") Long id,

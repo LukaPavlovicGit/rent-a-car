@@ -30,15 +30,15 @@ public class MessageTransferDto {
     public MessageTransferDto(String firstName, String lastname, String car, String destinationEmail, boolean x){
         this.firstName = firstName;
         this.lastname = lastname;
-        this.link = car;
+        this.car = car;
         this.destinationEmail = destinationEmail;
     }
 
     // reservation_cancellation
-    public MessageTransferDto(String firstName, String lastname, String car, String destinationEmail, Boolean x){
+    public MessageTransferDto(String firstName, String lastname, String car, String destinationEmail, Integer x){
         this.firstName = firstName;
         this.lastname = lastname;
-        this.link = car;
+        this.car = car;
         this.destinationEmail = destinationEmail;
     }
 

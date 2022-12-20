@@ -125,6 +125,8 @@ public class UserService {
         claims.put("id", user.getId());
         claims.put("role", user.getRole().getName());
         claims.put("email", user.getEmail());
+        claims.put("firstname", user.getFirstName());
+        claims.put("lastname", user.getLastName());
 
         //Generate token
         return new TokenResponseDto(tokenService.generate(claims));
@@ -246,7 +248,7 @@ public class UserService {
     public UserDto incrementTotalDays(String authorization, Long id, Integer numberOfDays) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
         user.setTotalDays(user.getTotalDays() + numberOfDays);
-        if(user.getTotalDays() == user.getRank().getUpperBound())
+        if(user.getTotalDays() >= user.getRank().getUpperBound())
             assignRankToUser(user);
         userRepository.save(user);
         return mapper.userToUserDto(user);

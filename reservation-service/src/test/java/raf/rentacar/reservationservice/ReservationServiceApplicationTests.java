@@ -73,7 +73,13 @@ class ReservationServiceApplicationTests {
 			BigDecimal a = new BigDecimal(d).setScale(2,RoundingMode.HALF_DOWN);
 			BigDecimal b = new BigDecimal(100).setScale(2,RoundingMode.HALF_DOWN);
 			BigDecimal c = a.divide(b);
+
+			Double num = 500.0;
+			Double num1 = num - num*c.doubleValue();
+			Long l = Long.valueOf(10);
 			System.out.println(a.divide(b));
+			System.out.println(num);
+			System.out.println(l * num1);
 
 
 			// Catch the Exception

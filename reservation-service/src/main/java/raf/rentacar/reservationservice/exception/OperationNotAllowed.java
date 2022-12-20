@@ -2,9 +2,9 @@ package raf.rentacar.reservationservice.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class UserCreationException extends CustomException {
+public class OperationNotAllowed extends CustomException {
 
-    public UserCreationException(String message) {
+    public OperationNotAllowed(String message) {
         super(message, ErrorCode.OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
     }
 }

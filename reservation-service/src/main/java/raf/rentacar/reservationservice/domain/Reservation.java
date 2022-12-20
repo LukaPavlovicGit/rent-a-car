@@ -8,22 +8,43 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer vehicleId;
+    private Long userId;
+    private String userMail;
+    private Long companyId;
+    private Long vehicleId;
+    //yyyy-MM-dd
     private Date start;
+    //yyyy-MM-dd
     private Date end;
     private Double totalPrice;
-    private Boolean sentReminder;
+    private boolean reminderSent;
+    private boolean canceled;
 
     public Reservation(){
 
     }
 
-    public Reservation(Integer vehicleId, Date start, Date end, Double totalPrice, Boolean sentReminder) {
+    public Reservation(Long vehicleId, Date start, Date end) {
+        this.vehicleId = vehicleId;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Reservation(Long vehicleId, Date start, Date end, Double totalPrice) {
         this.vehicleId = vehicleId;
         this.start = start;
         this.end = end;
         this.totalPrice = totalPrice;
-        this.sentReminder = sentReminder;
+    }
+
+    public Reservation(Long userId, String userMail, Long companyId, Long vehicleId, Date start, Date end, Double totalPrice) {
+        this.userId = userId;
+        this.userMail = userMail;
+        this.companyId = companyId;
+        this.vehicleId = vehicleId;
+        this.start = start;
+        this.end = end;
+        this.totalPrice = totalPrice;
     }
 
     public Long getId() {
@@ -34,11 +55,35 @@ public class Reservation {
         this.id = id;
     }
 
-    public Integer getVehicleId() {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserMail() {
+        return userMail;
+    }
+
+    public void setUserMail(String userMail) {
+        this.userMail = userMail;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public Long getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(Integer vehicleId) {
+    public void setVehicleId(Long vehicleId) {
         this.vehicleId = vehicleId;
     }
 
@@ -66,11 +111,19 @@ public class Reservation {
         this.totalPrice = totalPrice;
     }
 
-    public Boolean getSentReminder() {
-        return sentReminder;
+    public boolean isReminderSent() {
+        return reminderSent;
     }
 
-    public void setSentReminder(Boolean sentReminder) {
-        this.sentReminder = sentReminder;
+    public void setReminderSent(boolean reminderSent) {
+        this.reminderSent = reminderSent;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
     }
 }

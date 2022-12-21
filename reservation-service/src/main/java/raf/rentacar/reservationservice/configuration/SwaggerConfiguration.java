@@ -3,6 +3,7 @@ package raf.rentacar.reservationservice.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import raf.rentacar.reservationservice.controller.CompanyController;
+import raf.rentacar.reservationservice.controller.VehicleController;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -20,7 +21,7 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
-                .select().apis(RequestHandlerSelectors.basePackage(CompanyController.class.getPackage().getName()))
+                .select().apis(RequestHandlerSelectors.basePackage(VehicleController.class.getPackage().getName()))
                 .build()
                 .apiInfo(metaData());
     }

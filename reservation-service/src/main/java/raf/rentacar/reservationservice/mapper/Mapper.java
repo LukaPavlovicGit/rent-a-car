@@ -22,11 +22,11 @@ public class Mapper {
     public Vehicle vehicleDtoToVehicle(VehicleDto vehicleDto){
         return new Vehicle(vehicleDto.getType(),vehicleDto.getName(),vehicleDto.getPrice());
     }
-    public ReservationDto reservationToReservationDto(Reservation reservation){
-        return new ReservationDto(reservation.getId(),reservation.getUserId(),reservation.getUserMail(),reservation.getCompanyId(),reservation.getVehicleId(),
+    public GetReservationDto reservationToReservationDto(Reservation reservation){
+        return new GetReservationDto(reservation.getId(),reservation.getUserId(),reservation.getUserMail(),reservation.getCompanyId(),reservation.getVehicleId(),
                 reservation.getStart(),reservation.getEnd(),reservation.getTotalPrice(),reservation.isCanceled());
     }
-    public Reservation reservationDtoToReservation(ReservationDto reservationDto){
+    public Reservation reservationDtoToReservation(PostReservationDto reservationDto){
         return new Reservation(reservationDto.getVehicleId(),reservationDto.getStart(),reservationDto.getEnd());
     }
     public GetReviewDto reviewToReviewDto(Review review){

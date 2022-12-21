@@ -13,9 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import raf.rentacar.reservationservice.domain.Company;
 import raf.rentacar.reservationservice.domain.Reservation;
 import raf.rentacar.reservationservice.domain.Vehicle;
-import raf.rentacar.reservationservice.dto.DiscountDto;
-import raf.rentacar.reservationservice.dto.MessageTransferDto;
-import raf.rentacar.reservationservice.dto.ReservationDto;
+import raf.rentacar.reservationservice.dto.*;
 import raf.rentacar.reservationservice.exception.InvalidArguments;
 import raf.rentacar.reservationservice.exception.NotFoundException;
 import raf.rentacar.reservationservice.exception.OperationNotAllowed;
@@ -65,20 +63,20 @@ public class ReservationService {
     }
 
     //admin
-    public Page<ReservationDto> getReservations(Pageable pageable){
+    public Page<GetReservationDto> getReservations(Pageable pageable){
         return reservationRepository.findAll(pageable).map(mapper::reservationToReservationDto);
     }
     //manager
-    public Page<ReservationDto> getReservationsByCompany(String authorization){
+    public Page<GetReservationDto> getReservationsByCompany(String authorization){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long managerId = claims.get("id", Integer.class).longValue();
         Company company = companyRepository.findCompanyByManagerId(managerId)
                 .orElseThrow(() -> new NotFoundException(String.format("The company whose manager has id: %d is not found!", managerId)));
-        List<ReservationDto> reservationDtos = reservationRepository.findAllByCompanyId(company.getId()).stream().map(mapper::reservationToReservationDto).collect(Collectors.toList());
+        List<GetReservationDto> reservationDtos = reservationRepository.findAllByCompanyId(company.getId()).stream().map(mapper::reservationToReservationDto).collect(Collectors.toList());
         return new PageImpl<>(reservationDtos);
     }
     //admin manager
-    public ReservationDto getReservation(String authorization, Long id){
+    public GetReservationDto getReservation(String authorization, Long id){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long managerId = claims.get("id", Integer.class).longValue();
         String role = claims.get("role", String.class);
@@ -95,7 +93,7 @@ public class ReservationService {
         return mapper.reservationToReservationDto(reservation);
     }
     //client
-    public ReservationDto createReservation(String authorization, ReservationDto reservationDto){
+    public GetReservationDto createReservation(String authorization, PostReservationDto reservationDto){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long clientId = claims.get("id", Integer.class).longValue();
         String email = claims.get("email", String.class);
@@ -169,7 +167,7 @@ public class ReservationService {
     }
 
     //client
-    public ReservationDto cancelReservation(String authorization, Long id){
+    public GetReservationDto cancelReservation(String authorization, Long id){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long clientId = claims.get("id", Integer.class).longValue();
         String email = claims.get("email", String.class);
@@ -219,11 +217,11 @@ public class ReservationService {
     }
 
     //manager client
-    public ReservationDto updateReservation(String authorization, Long id, ReservationDto reservationDto){
+    public GetReservationDto updateReservation(String authorization, Long id, ReservationDto reservationDto){
         return null;
     }
     //manager client
-    public ReservationDto deleteReservation(String authorization, Long id){
+    public GetReservationDto deleteReservation(String authorization, Long id){
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("The reservation with id: %d is not found!", id)));
         reservationRepository.deleteById(id);

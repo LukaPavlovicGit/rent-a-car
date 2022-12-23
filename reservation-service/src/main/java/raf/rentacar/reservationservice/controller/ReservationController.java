@@ -36,27 +36,27 @@ public class ReservationController {
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
     public ResponseEntity<GetReservationDto> getReservation(@RequestHeader("Authorization") String authorization,
-                                                         @PathVariable Long id) {
+                                                            @PathVariable Long id) {
         return new ResponseEntity<>(reservationService.getReservation(authorization, id), HttpStatus.OK);
     }
     @PostMapping
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<GetReservationDto> createReservation(@RequestHeader("Authorization") String authorization,
-                                                            @RequestBody PostReservationDto reservationDto) {
+                                                               @RequestBody PostReservationDto reservationDto) {
         return new ResponseEntity<>(reservationService.createReservation(authorization, reservationDto), HttpStatus.OK);
     }
 
     @PutMapping("/cancel-reservation/{id}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<GetReservationDto> cancelReservation(@RequestHeader("Authorization") String authorization,
-                                                            @PathVariable Long id) {
+                                                               @PathVariable Long id) {
         return new ResponseEntity<>(reservationService.cancelReservation(authorization, id), HttpStatus.OK);
     }
 
     @PutMapping("/update-reservation/{id}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<GetReservationDto> updateReservation(@RequestHeader("Authorization") String authorization,
-                                                            @PathVariable Long id) {
+                                                               @PathVariable Long id) {
         return null;
     }
 

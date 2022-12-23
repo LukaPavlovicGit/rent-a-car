@@ -1,5 +1,14 @@
 package raf.rentacar.notificationservice.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MessageTransferDto {
 
     private String firstName;
@@ -8,8 +17,6 @@ public class MessageTransferDto {
     private String car;
     private String destinationEmail;
     private String rezStart;
-
-    public MessageTransferDto() { }
 
     // account_activation
     public MessageTransferDto(String firstName, String lastname, String link, String destinationEmail){
@@ -48,54 +55,6 @@ public class MessageTransferDto {
         this.lastname = lastname;
         this.car = car;
         this.destinationEmail = destinationEmail;
-        this.rezStart = rezStart;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public String getCar() {
-        return car;
-    }
-
-    public void setCar(String car) {
-        this.car = car;
-    }
-
-    public String getDestinationEmail() {
-        return destinationEmail;
-    }
-
-    public void setDestinationEmail(String destinationEmail) {
-        this.destinationEmail = destinationEmail;
-    }
-
-    public String getRezStart() {
-        return rezStart;
-    }
-
-    public void setRezStart(String rezStart) {
         this.rezStart = rezStart;
     }
 }

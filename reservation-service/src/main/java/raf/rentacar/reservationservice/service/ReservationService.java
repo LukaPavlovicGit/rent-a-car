@@ -100,11 +100,6 @@ public class ReservationService {
         String firstname = claims.get("firstname", String.class);
         String lastname = claims.get("lastname", String.class);
 
-        Vehicle vehicle = vehicleRepository.findById(reservationDto.getVehicleId())
-                .orElseThrow(() -> new NotFoundException(String.format("The vehicle with id: %d is not found!", reservationDto.getVehicleId())));
-
-        if(!vehicle.isAvailable())
-            throw new OperationNotAllowed(String.format("The car with id: %d is not available!", vehicle.getId()));
 
         Date now = Date.valueOf(LocalDate.now());
         Date start = reservationDto.getStart();
@@ -113,9 +108,10 @@ public class ReservationService {
         if(start.before(now) || start.after(end))
             throw new InvalidArguments("Invalid dates!");
 
-        long startInMs = start.getTime();
-        long endInMs = end.getTime();
-        long timeDiff = Math.abs(endInMs - startInMs);
+        if(!isAvailableVehicle(reservationDto.getVehicleId(), start, end))
+            throw new OperationNotAllowed(String.format("The car with id: %d is not available in that period!", reservationDto.getVehicleId()));
+
+        long timeDiff = Math.abs(end.getTime() - start.getTime());
         long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 
         ResponseEntity<DiscountDto>
@@ -131,13 +127,13 @@ public class ReservationService {
         DiscountDto discountDto = discountDtoResponseEntity.getBody();
         System.out.println("RESERVATION CREATION - discount value: "+discountDto.getDiscount());
 
-        vehicle.setAvailable(false);
-        vehicleRepository.save(vehicle);
+        Vehicle vehicle = vehicleRepository.findById(reservationDto.getVehicleId())
+                .orElseThrow(() -> new NotFoundException(String.format("The vehicle with id: %d is not found!", reservationDto.getVehicleId())));
 
         BigDecimal percentage = new BigDecimal(discountDto.getDiscount()).setScale(2, RoundingMode.HALF_DOWN);
         BigDecimal hundred = new BigDecimal(100).setScale(2,RoundingMode.HALF_DOWN);
         Double discount = percentage.divide(hundred).doubleValue();
-        Double oneDayPrice = vehicle.getPrice() - discount;
+        Double oneDayPrice = vehicle.getPrice() - vehicle.getPrice()*discount;
         Double totalPrice = daysDiff * oneDayPrice;
 
         Reservation reservation = mapper.reservationDtoToReservation(reservationDto);
@@ -182,19 +178,13 @@ public class ReservationService {
         Date end = reservation.getEnd();
 
         if(start.before(now))
-            throw new OperationNotAllowed("The reservation is not possible to cancel!");
+            throw new OperationNotAllowed("It's not possible to cancel reservation now!");
 
+        reservationRepository.delete(reservation);
         Vehicle vehicle = vehicleRepository.findById(reservation.getVehicleId())
                 .orElseThrow(() -> new NotFoundException(String.format("The vehicle with id: %d is not found!", reservation.getVehicleId())));
 
-        reservation.setCanceled(true);
-        vehicle.setAvailable(true);
-        reservationRepository.save(reservation);
-        vehicleRepository.save(vehicle);
-
-        long startInMs = start.getTime();
-        long endInMs = end.getTime();
-        long timeDiff = Math.abs(endInMs - startInMs);
+        long timeDiff = Math.abs(end.getTime() - start.getTime());
         long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 
         userServiceRestTemplate.exchange(
@@ -226,5 +216,15 @@ public class ReservationService {
                 .orElseThrow(() -> new NotFoundException(String.format("The reservation with id: %d is not found!", id)));
         reservationRepository.deleteById(id);
         return mapper.reservationToReservationDto(reservation);
+    }
+
+    public boolean isAvailableVehicle(Long vehicleId, Date start, Date end){
+
+        for(Reservation reservation : reservationRepository.findAllVehicleId(vehicleId)){
+            if( !(start.before(reservation.getStart()) && end.before(reservation.getStart()) ||
+                    start.after(reservation.getEnd()) && end.after(reservation.getEnd())    ))
+                return false;
+        }
+        return true;
     }
 }

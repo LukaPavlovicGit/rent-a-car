@@ -34,7 +34,4 @@ public class UserDto {
     private String passport;
     private Integer totalDays;
     private Boolean forbidden = false;
-    private Rank rank;
-
-
 }

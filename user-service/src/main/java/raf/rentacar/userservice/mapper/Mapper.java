@@ -17,7 +17,7 @@ public class Mapper {
     public UserDto userToUserDto(User user){
         return new UserDto(user.getId(),user.getUsername(),user.getPassword(),user.getFirstName(),user.getLastName(),user.getEmail(),
                 user.getPhoneNumber(),user.getBirthdate(),user.getRole(),user.isActivated(),user.getCompanyName(),
-                user.getHireDate(),user.getPassport(),user.getTotalDays(),user.isForbidden(),user.getRank());
+                user.getHireDate(),user.getPassport(),user.getTotalDays(),user.isForbidden());
     }
 
     public User userDtoToUser(UserDto userDto){

@@ -220,7 +220,7 @@ public class ReservationService {
 
     public boolean isAvailableVehicle(Long vehicleId, Date start, Date end){
 
-        for(Reservation reservation : reservationRepository.findAllVehicleId(vehicleId)){
+        for(Reservation reservation : reservationRepository.findAllByVehicleId(vehicleId)){
             if( !(start.before(reservation.getStart()) && end.before(reservation.getStart()) ||
                     start.after(reservation.getEnd()) && end.after(reservation.getEnd())    ))
                 return false;

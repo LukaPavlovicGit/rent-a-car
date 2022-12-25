@@ -2,6 +2,8 @@ package raf.rentacar.userservice.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jdk.dynalink.Operation;
+import org.bouncycastle.operator.OperatorException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jms.core.JmsTemplate;
@@ -13,6 +15,7 @@ import raf.rentacar.userservice.domain.User;
 import raf.rentacar.userservice.dto.*;
 import raf.rentacar.userservice.exception.AccessForbidden;
 import raf.rentacar.userservice.exception.NotFoundException;
+import raf.rentacar.userservice.exception.OperationNotAllowed;
 import raf.rentacar.userservice.exception.UserCreationException;
 import raf.rentacar.userservice.mapper.Mapper;
 import raf.rentacar.userservice.messageHelper.MessageHelper;
@@ -203,7 +206,11 @@ public class UserService {
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long id = claims.get("id", Integer.class).longValue();
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
-        user.setPassword(passwordDto.getPassword());
+
+        if(!passwordDto.getOldPassword().equals(user.getPassword()))
+            throw new OperationNotAllowed("Incorrect password");
+
+        user.setPassword(passwordDto.getNewPassword());
         userRepository.save(user);
 
         MessageTransferDto messageTransferDto = new MessageTransferDto(
@@ -213,7 +220,6 @@ public class UserService {
         );
 
         jmsTemplate.convertAndSend("password_change_queue", messageHelper.createTextMessage(messageTransferDto));
-
         return null;
     }
     public UserDto deleteUser(String authorization){

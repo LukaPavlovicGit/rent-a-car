@@ -60,6 +60,8 @@ public class LoginView extends JPanel {
                 MainFrame.getInstance().setToken(token);
                 MainFrame.getInstance().setActiveUser(TokenDecoder.decodeToken(token));
                 String role = MainFrame.getInstance().getActiveUser().getRole();
+                usernameTf.setText("");
+                passwordTf.setText("");
 
                 if(role.equals("ROLE_ADMIN")){
                     MainFrame.getInstance().showAdminView();
@@ -79,7 +81,11 @@ public class LoginView extends JPanel {
         backBtn.setFont(new Font("Tahoma", Font.PLAIN, 26));
         backBtn.setBounds(250, 387, 193, 83);
         add(backBtn);
-        backBtn.addActionListener(e -> MainFrame.getInstance().showStartView());
+        backBtn.addActionListener(e -> {
+            usernameTf.setText("");
+            passwordTf.setText("");
+            MainFrame.getInstance().showStartView();
+        });
     }
 
 }

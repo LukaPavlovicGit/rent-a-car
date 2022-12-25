@@ -1,4 +1,4 @@
-package raf.rentacar.userservice.dto;
+package raf.rent.a.car.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

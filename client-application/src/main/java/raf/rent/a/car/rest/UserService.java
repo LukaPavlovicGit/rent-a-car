@@ -3,9 +3,8 @@ package raf.rent.a.car.rest;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
-import raf.rent.a.car.dto.ManagerDto;
-import raf.rent.a.car.dto.TokenRequestDto;
-import raf.rent.a.car.dto.TokenResponseDto;
+import raf.rent.a.car.MainFrame;
+import raf.rent.a.car.dto.*;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -19,11 +18,27 @@ public class UserService {
     OkHttpClient client = new OkHttpClient();
     ObjectMapper objectMapper = new ObjectMapper();
 
+    public void createClient(ClientDto clientDto) throws IOException {
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(clientDto));
+
+        Request request = new Request.Builder()
+                .url(URL + "/users/create-client")
+                .post(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (!response.isSuccessful())
+            throw new IOException();
+    }
+
     public void createManager(ManagerDto managerCreateDto) throws IOException {
         RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(managerCreateDto));
 
         Request request = new Request.Builder()
-                .url(URL + "/users//create-manager")
+                .url(URL + "/users/create-manager")
                 .post(body)
                 .build();
 
@@ -53,7 +68,26 @@ public class UserService {
             TokenResponseDto dto = objectMapper.readValue(json, TokenResponseDto.class);
             return dto.getToken();
         }
-        else
-            throw new IOException();
+        throw new IOException();
+    }
+
+    public UsersListDto getUsers() throws IOException{
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/users")
+                .addHeader("authorization", "Bearer " + token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, UsersListDto.class);
+
+        throw new IOException();
     }
 }

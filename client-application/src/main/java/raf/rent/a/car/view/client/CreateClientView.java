@@ -1,9 +1,7 @@
-package raf.rent.a.car.view.manager;
+package raf.rent.a.car.view.client;
 
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 import raf.rent.a.car.MainFrame;
+import raf.rent.a.car.dto.ClientDto;
 import raf.rent.a.car.dto.ManagerDto;
 
 import javax.swing.*;
@@ -14,13 +12,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateManagerView extends JPanel {
+public class CreateClientView extends JPanel {
 
-    public CreateManagerView(){
+    public CreateClientView(){
         init();
     }
 
-    private void init() {
+    public void init(){
         setBounds(458, 319, 500, 400);
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(null);
@@ -95,12 +93,22 @@ public class CreateManagerView extends JPanel {
         lbl.setBounds(104, 387, 80, 16);
         add(lbl);
 
-        JTextArea birthTa = new JTextArea();//yyyy-MM-dd
+        JTextArea birthTa = new JTextArea();
         birthTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         birthTa.setBounds(205, 360,166, 37);
         add(birthTa);
 
-        JButton createBtn = new JButton("Create manager");
+        JLabel passportLbl = new JLabel("Passport");
+        passportLbl.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        passportLbl.setBounds(104, 407, 100, 29);
+        add(passportLbl);
+
+        JTextArea passportTa = new JTextArea();
+        passportTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        passportTa.setBounds(205, 407,166, 37);
+        add(passportTa);
+
+        JButton createBtn = new JButton("Create client");
         createBtn.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         createBtn.setBounds(450, 210,200, 50);
         add(createBtn);
@@ -109,13 +117,13 @@ public class CreateManagerView extends JPanel {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date birthDate =  sdf.parse(birthTa.getText());
                 java.sql.Date birthDateToSqlDate = new java.sql.Date(birthDate.getTime());
-                ManagerDto managerDto = new ManagerDto(usernameTa.getText(),passwordTa.getText(),firstnameTa.getText(),
-                        lastnameTa.getText(),emailTa.getText(),passwordTa.getText(),birthDateToSqlDate);
-                MainFrame.getInstance().getUserService().createManager(managerDto);
-                JOptionPane.showMessageDialog(null, "Manager successfully created!", "Success", JOptionPane.WARNING_MESSAGE);
+                ClientDto clientDto = new ClientDto(usernameTa.getText(),passwordTa.getText(),firstnameTa.getText(),
+                        lastnameTa.getText(),emailTa.getText(),passwordTa.getText(),birthDateToSqlDate,passportTa.getText());
+                MainFrame.getInstance().getUserService().createClient(clientDto);
+                JOptionPane.showMessageDialog(null, "Client successfully created!", "Success", JOptionPane.WARNING_MESSAGE);
                 MainFrame.getInstance().showLoginView();
             } catch (IOException | ParseException ex) {
-                JOptionPane.showMessageDialog(null, "Manager account not created!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Client account not created!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -124,6 +132,5 @@ public class CreateManagerView extends JPanel {
         backBtn.setBounds(700, 210,150, 50);
         add(backBtn);
         backBtn.addActionListener(e -> MainFrame.getInstance().showStartView());
-
     }
 }

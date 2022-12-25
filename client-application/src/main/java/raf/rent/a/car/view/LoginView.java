@@ -2,6 +2,7 @@ package raf.rent.a.car.view;
 
 import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.TokenRequestDto;
+import raf.rent.a.car.tokenDecoder.TokenDecoder;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -55,8 +56,20 @@ public class LoginView extends JPanel {
 
             TokenRequestDto tokenRequestDto = new TokenRequestDto(usernameTf.getText(), new String(passwordTf.getPassword()));
             try {
-                MainFrame.getInstance().getUserService().login(tokenRequestDto);
-                JOptionPane.showMessageDialog(null, "Login successful!", "Success", JOptionPane.WARNING_MESSAGE);
+                String token = MainFrame.getInstance().getUserService().login(tokenRequestDto);
+                MainFrame.getInstance().setToken(token);
+                MainFrame.getInstance().setActiveUser(TokenDecoder.decodeToken(token));
+                String role = MainFrame.getInstance().getActiveUser().getRole();
+
+                if(role.equals("ROLE_ADMIN")){
+                    MainFrame.getInstance().showAdminView();
+                }
+                else if(role.equals("ROLE_MANAGER")){
+
+                }
+                else if(role.equals("ROLE_CLIENT")){
+
+                }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -68,4 +81,5 @@ public class LoginView extends JPanel {
         add(backBtn);
         backBtn.addActionListener(e -> MainFrame.getInstance().showStartView());
     }
+
 }

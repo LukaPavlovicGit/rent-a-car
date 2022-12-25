@@ -30,12 +30,13 @@ public class StartView extends JPanel {
         loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 24));
         loginBtn.setBounds(100, 245, 243, 93);
         add(loginBtn);
-        loginBtn.addActionListener(e -> MainFrame.getInstance().showLoginViewView());
+        loginBtn.addActionListener(e -> MainFrame.getInstance().showLoginView());
 
-        JButton createUser = new JButton("Create user");
-        createUser.setFont(new Font("Tahoma", Font.PLAIN, 24));
-        createUser.setBounds(400, 245, 243, 93);
-        add(createUser);
+        JButton createClient = new JButton("Create user");
+        createClient.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        createClient.setBounds(400, 245, 243, 93);
+        add(createClient);
+        createClient.addActionListener(e -> MainFrame.getInstance().showCreateClientView());
 
         JButton createManager = new JButton("Create manager");
         createManager.setFont(new Font("Tahoma", Font.PLAIN, 24));

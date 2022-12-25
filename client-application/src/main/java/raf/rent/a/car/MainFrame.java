@@ -2,8 +2,11 @@ package raf.rent.a.car;
 
 import raf.rent.a.car.dto.UserDto;
 import raf.rent.a.car.rest.UserService;
+import raf.rent.a.car.tokenDecoder.TokenDecoder;
 import raf.rent.a.car.view.LoginView;
 import raf.rent.a.car.view.StartView;
+import raf.rent.a.car.view.admin.AdminView;
+import raf.rent.a.car.view.client.CreateClientView;
 import raf.rent.a.car.view.manager.CreateManagerView;
 
 import javax.swing.*;
@@ -13,12 +16,15 @@ public class MainFrame extends JFrame {
     private String token;
     private UserDto activeUser;
     private String str = null;
+    private TokenDecoder tokenDecoder;
 
     private UserService userService;
 
     private StartView startView;
     private CreateManagerView createManagerView;
+    private CreateClientView createClientView;
     private LoginView loginView;
+    private AdminView adminView;
 
     public static MainFrame getInstance() {
         if (instance == null) {
@@ -33,11 +39,14 @@ public class MainFrame extends JFrame {
         setBounds(450, 190, 1074, 597);
         setResizable(false);
 
+        tokenDecoder = new TokenDecoder();
         userService = new UserService();
 
         startView = new StartView();
         createManagerView = new CreateManagerView();
+        createClientView = new CreateClientView();
         loginView = new LoginView();
+        adminView = new AdminView();
 
         showStartView();
     }
@@ -56,10 +65,31 @@ public class MainFrame extends JFrame {
         this.getContentPane().setVisible(true);
     }
 
-    public void showLoginViewView(){
+    public void showCreateClientView(){
+        this.getContentPane().setVisible(false);
+        this.getContentPane().removeAll();
+        this.getContentPane().add(createClientView);
+        this.getContentPane().setVisible(true);
+    }
+
+    public void showLoginView(){
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(loginView);
+        this.getContentPane().setVisible(true);
+    }
+
+    public void showAdminView(){
+        this.getContentPane().setVisible(false);
+        this.getContentPane().removeAll();
+        this.getContentPane().add(adminView);
+        this.getContentPane().setVisible(true);
+    }
+
+    public void refresh(JPanel jPanel){
+        this.getContentPane().setVisible(false);
+        this.getContentPane().removeAll();
+        this.getContentPane().add(jPanel);
         this.getContentPane().setVisible(true);
     }
 
@@ -83,4 +113,7 @@ public class MainFrame extends JFrame {
         return userService;
     }
 
+    public void setTokenDecoder(TokenDecoder tokenDecoder) {
+        this.tokenDecoder = tokenDecoder;
+    }
 }

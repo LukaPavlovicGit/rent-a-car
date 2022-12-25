@@ -73,7 +73,7 @@ public class LoginView extends JPanel {
 
                 }
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                JOptionPane.showMessageDialog(null, "Invalid credentials or blocked account!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 

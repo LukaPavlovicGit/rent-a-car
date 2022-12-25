@@ -63,6 +63,10 @@ public class AdminView extends JPanel {
         users.add(getUsers);
         getUsers.addActionListener(e -> getUsersClicked());
 
+        JMenuItem accountBlocking = new JMenuItem("Account blocking");
+        users.add(accountBlocking);
+        accountBlocking.addActionListener(e -> accountBlockingClicked());
+
         JMenu ranks = new JMenu("Ranks");
         ranks.setFont(new Font("Segoe UI", Font.BOLD, 16));
         userServiceJMenu.add(ranks);
@@ -130,6 +134,7 @@ public class AdminView extends JPanel {
     }
 
     private void getUsersClicked(){
+        contentPanel.removeAll();
         UsersListDto list = null;
         try {
             list = MainFrame.getInstance().getUserService().getUsers();
@@ -167,8 +172,83 @@ public class AdminView extends JPanel {
         MainFrame.getInstance().refresh(this);
     }
 
-    private void profileUpdateClicked(){
+    private void accountBlockingClicked(){
+        contentPanel.removeAll();
 
+        JLabel blockLbl = new JLabel("Block user's account:");
+        blockLbl.setForeground(Color.RED);
+        blockLbl.setFont(new Font("Segoe UI", Font.BOLD, 35));
+        blockLbl.setBounds(40, 65, 400, 35);
+        contentPanel.add(blockLbl);
+
+        JLabel userId1 = new JLabel("User id");
+        userId1.setForeground(Color.BLACK);
+        userId1.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        userId1.setBounds(74, 130, 100, 29);
+        contentPanel.add(userId1);
+
+        JTextArea userIdTa1 = new JTextArea();
+        userIdTa1.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        userIdTa1.setBounds(147, 130,40, 37);
+        contentPanel.add(userIdTa1);
+
+        JButton blockBtn = new JButton("BLOCK");
+        blockBtn.setForeground(Color.WHITE);
+        blockBtn.setBackground(Color.RED);
+        blockBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        blockBtn.setBounds(220, 130,140, 40);
+        contentPanel.add(blockBtn);
+        blockBtn.addActionListener(e -> {
+            try {
+                MainFrame.getInstance().getUserService().banUser(userIdTa1.getText());
+                clearContentPanel();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "User has not been blocked!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        JLabel unblockLbl = new JLabel("Unblock user's account:");
+        unblockLbl.setForeground(Color.GREEN);
+        unblockLbl.setFont(new Font("Segoe UI", Font.BOLD, 35));
+        unblockLbl.setBounds(600, 65, 450, 35);
+        contentPanel.add(unblockLbl);
+
+        JLabel userId2 = new JLabel("User id");
+        userId2.setForeground(Color.BLACK);
+        userId2.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        userId2.setBounds(634, 130, 100, 29);
+        contentPanel.add(userId2);
+
+        JTextArea userIdTa2 = new JTextArea();
+        userIdTa2.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        userIdTa2.setBounds(707, 130,40, 37);
+        contentPanel.add(userIdTa2);
+
+        JButton unblockBtn = new JButton("UNBLOCK");
+        unblockBtn.setForeground(Color.WHITE);
+        unblockBtn.setBackground(Color.GREEN);
+        unblockBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        unblockBtn.setBounds(780, 130,140, 40);
+        contentPanel.add(unblockBtn);
+        unblockBtn.addActionListener(e -> {
+            try {
+                MainFrame.getInstance().getUserService().removeBanUser(userIdTa2.getText());
+                clearContentPanel();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "User has not been unblocked!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        JButton backBtn = new JButton("Back");
+        backBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        backBtn.setBounds(430, 370,140, 40);
+        backBtn.addActionListener(e -> clearContentPanel());
+        contentPanel.add(backBtn);
+
+        MainFrame.getInstance().refresh(this);
+    }
+
+    private void profileUpdateClicked(){
         contentPanel.removeAll();
 
         JLabel usernameLbl = new JLabel("Username");
@@ -320,6 +400,7 @@ public class AdminView extends JPanel {
     }
 
     private void deleteAccountClicked(){
+        contentPanel.removeAll();
 
         JLabel usernameLbl = new JLabel("Username");
         usernameLbl.setForeground(Color.BLACK);

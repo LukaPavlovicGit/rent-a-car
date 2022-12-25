@@ -89,17 +89,17 @@ public class UserController {
         return new ResponseEntity<>(userService.accountActivation(id), HttpStatus.OK);
     }
 
-    @PostMapping("/ban-user/{id}")
+    @PutMapping("/ban-user")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<UserDto> banUser(@RequestHeader("Authorization") String authorization,
-                                          @PathVariable("id") Long id){
+                                           @RequestBody Long id){
         return new ResponseEntity<>(userService.banUser(id), HttpStatus.OK);
     }
 
-    @PostMapping("/remove-ban-user/{id}")
+    @PutMapping("/remove-ban-user")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<UserDto> removeBanOnUser(@RequestHeader("Authorization") String authorization,
-                                                   @PathVariable("id") Long id){
+                                                   @RequestBody Long id){
         return new ResponseEntity<>(userService.removeBanOnUser(id), HttpStatus.OK);
     }
 

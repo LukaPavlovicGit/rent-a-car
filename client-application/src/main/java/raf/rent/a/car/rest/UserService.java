@@ -130,6 +130,46 @@ public class UserService {
         throw new IOException();
     }
 
+    public void banUser(String userId) throws IOException {
+        String token = MainFrame.getInstance().getToken();
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(userId));
+
+        Request request = new Request.Builder()
+                .url(URL + "/users/ban-user")
+                .addHeader("authorization", "Bearer " + token)
+                .put(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (response.code() == 200)
+            return ;
+
+        throw new IOException();
+    }
+
+    public void removeBanUser(String userId) throws IOException {
+        String token = MainFrame.getInstance().getToken();
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(userId));
+
+        Request request = new Request.Builder()
+                .url(URL + "/users/remove-ban-user")
+                .addHeader("authorization", "Bearer " + token)
+                .put(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (response.code() == 200)
+            return;
+
+        throw new IOException();
+    }
+
     public void deleteAccount(CredentialsDto credentialsDto) throws IOException {
         String token = MainFrame.getInstance().getToken();
         RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(credentialsDto));

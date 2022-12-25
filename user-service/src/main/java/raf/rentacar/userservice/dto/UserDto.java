@@ -23,7 +23,7 @@ public class UserDto {
     private String email;
     private String phoneNumber;
     private Date birthdate;
-    private Role role;
+    private String role;
     private Boolean activated;
 
     //manager

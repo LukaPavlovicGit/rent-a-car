@@ -129,4 +129,23 @@ public class UserService {
 
         throw new IOException();
     }
+
+    public void deleteAccount(CredentialsDto credentialsDto) throws IOException {
+        String token = MainFrame.getInstance().getToken();
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(credentialsDto));
+
+        Request request = new Request.Builder()
+                .url(URL + "/users")
+                .addHeader("authorization", "Bearer " + token)
+                .delete(body)
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (response.code() == 200)
+            return;
+
+        throw new IOException();
+    }
 }

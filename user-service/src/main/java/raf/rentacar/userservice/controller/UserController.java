@@ -79,8 +79,9 @@ public class UserController {
 
     @DeleteMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_CLIENT"})
-    public ResponseEntity<Object> deleteUser(@RequestHeader("Authorization") String authorization){
-        return new ResponseEntity<>(userService.deleteUser(authorization), HttpStatus.OK);
+    public ResponseEntity<UserDto> deleteUser(@RequestHeader("Authorization") String authorization,
+                                              @RequestBody CredentialsDto credentialsDto){
+        return new ResponseEntity<>(userService.deleteUser(credentialsDto), HttpStatus.OK);
     }
 
     @RequestMapping("/account-activation/{id}")

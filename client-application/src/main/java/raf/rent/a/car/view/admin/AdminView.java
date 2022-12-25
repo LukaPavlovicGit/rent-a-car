@@ -2,6 +2,7 @@ package raf.rent.a.car.view.admin;
 
 import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.*;
+import raf.rent.a.car.tokenDecoder.TokenDecoder;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +17,8 @@ import java.util.List;
 public class AdminView extends JPanel {
 
     private JPanel contentPanel = new JPanel();
+
+    // inputs fields
 
     public AdminView(){
         init();
@@ -115,6 +118,10 @@ public class AdminView extends JPanel {
         JMenuItem changePassword = new JMenuItem("Password change");
         myAccountJMenu.add(changePassword);
         changePassword.addActionListener(e -> passwordChangeClicked());
+
+        JMenuItem deleteAccount = new JMenuItem("Delete account");
+        myAccountJMenu.add(deleteAccount);
+        deleteAccount.addActionListener(e -> deleteAccountClicked());
 
 
 
@@ -243,7 +250,7 @@ public class AdminView extends JPanel {
                 contentPanel.removeAll();
                 MainFrame.getInstance().refresh(this);
             } catch (IOException | ParseException ex) {
-                JOptionPane.showMessageDialog(null, "Admin account have not benn updated!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Account has not been updated!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -297,7 +304,7 @@ public class AdminView extends JPanel {
                 JOptionPane.showMessageDialog(null, "Password successfully changed!", "Success", JOptionPane.WARNING_MESSAGE);
                 clearContentPanel();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Admin account have not benn updated!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Password has not been updated!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -306,6 +313,64 @@ public class AdminView extends JPanel {
         cancelBtn.setBackground(Color.BLACK);
         cancelBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
         cancelBtn.setBounds(800, 210,150, 50);
+        contentPanel.add(cancelBtn);
+        cancelBtn.addActionListener(e -> clearContentPanel());
+
+        MainFrame.getInstance().refresh(this);
+    }
+
+    private void deleteAccountClicked(){
+
+        JLabel usernameLbl = new JLabel("Username");
+        usernameLbl.setForeground(Color.BLACK);
+        usernameLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        usernameLbl.setBounds(104, 78, 166, 29);
+        contentPanel.add(usernameLbl);
+
+        JTextArea usernameTa = new JTextArea();
+        usernameTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        usernameTa.setBounds(260, 78,210, 37);
+        contentPanel.add(usernameTa);
+
+        JLabel passwordLbl = new JLabel("Password");
+        passwordLbl.setForeground(Color.BLACK);
+        passwordLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        passwordLbl.setBounds(104, 125, 166, 29);
+        contentPanel.add(passwordLbl);
+
+        JLabel lbl = new JLabel("DANGER");
+        lbl.setForeground(Color.red);
+        lbl.setFont(new Font("Times New Roman", Font.BOLD, 100));
+        lbl.setBounds(540, 125,500, 70);
+        contentPanel.add(lbl);
+
+        JTextArea passwordTa = new JTextArea();
+        passwordTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        passwordTa.setBounds(260, 125,210, 37);
+        contentPanel.add(passwordTa);
+
+        JButton deleteBtn = new JButton("DELETE");
+        deleteBtn.setForeground(Color.WHITE);
+        deleteBtn.setBackground(Color.RED);
+        deleteBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        deleteBtn.setBounds(570, 350,180, 50);
+        contentPanel.add(deleteBtn);
+        deleteBtn.addActionListener(e -> {
+            try {
+                CredentialsDto credentialsDto = new CredentialsDto(usernameTa.getText(),passwordTa.getText());
+                MainFrame.getInstance().getUserService().deleteAccount(credentialsDto);
+                contentPanel.removeAll();
+                MainFrame.getInstance().showStartView();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Account has not been deleted!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        JButton cancelBtn = new JButton("Cancel");
+        cancelBtn.setForeground(Color.WHITE);
+        cancelBtn.setBackground(Color.BLACK);
+        cancelBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        cancelBtn.setBounds(800, 350,150, 50);
         contentPanel.add(cancelBtn);
         cancelBtn.addActionListener(e -> clearContentPanel());
 

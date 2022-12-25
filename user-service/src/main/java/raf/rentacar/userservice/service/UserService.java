@@ -222,11 +222,12 @@ public class UserService {
         jmsTemplate.convertAndSend("password_change_queue", messageHelper.createTextMessage(messageTransferDto));
         return null;
     }
-    public UserDto deleteUser(String authorization){
-        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
-        Long id = claims.get("id", Integer.class).longValue();
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
-        userRepository.deleteById(id);
+    public UserDto deleteUser(CredentialsDto credentialsDto){
+        Optional<User> optionalUser = userRepository.findUserByUsernameAndPassword(credentialsDto.getUsername(), credentialsDto.getPassword());
+        if(!optionalUser.isPresent())
+            throw new NotFoundException("Incorrect credentials!");
+        User user = optionalUser.get();
+        userRepository.delete(user);
         return mapper.userToUserDto(user);
     }
 

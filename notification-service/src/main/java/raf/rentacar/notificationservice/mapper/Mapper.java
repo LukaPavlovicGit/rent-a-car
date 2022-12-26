@@ -12,3 +12,11 @@ public class Mapper {
                 sentEmail.getSubject(),sentEmail.getMessage(),sentEmail.getDateSent());
     }
 }
+/*
+
+    private String type;
+    private String destinationEmail;
+    private String subject;
+    private String message;
+    private Date dateSent;
+ */

@@ -1,6 +1,7 @@
 package raf.rent.a.car;
 
 import raf.rent.a.car.dto.UserDto;
+import raf.rent.a.car.rest.NotificationService;
 import raf.rent.a.car.rest.ReservationService;
 import raf.rent.a.car.rest.UserService;
 import raf.rent.a.car.tokenDecoder.TokenDecoder;
@@ -22,6 +23,7 @@ public class MainFrame extends JFrame {
 
     private UserService userService;
     private ReservationService reservationService;
+    private NotificationService notificationService;
 
     private MyPanel currentPanel = null;
     private MyPanel startView;
@@ -46,6 +48,7 @@ public class MainFrame extends JFrame {
         tokenDecoder = new TokenDecoder();
         userService = new UserService();
         reservationService = new ReservationService();
+        notificationService = new NotificationService();
 
         startView = new StartView();
         createManagerView = new CreateManagerView();
@@ -135,6 +138,10 @@ public class MainFrame extends JFrame {
 
     public ReservationService getReservationService() {
         return reservationService;
+    }
+
+    public NotificationService getNotificationService() {
+        return notificationService;
     }
 
     public MyPanel getCurrentPanel() {

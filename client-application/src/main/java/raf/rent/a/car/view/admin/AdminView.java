@@ -84,13 +84,14 @@ public class AdminView extends MyPanel {
         notificationServiceJMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
         menuBar.add(notificationServiceJMenu);
 
-        JMenu emailPatters = new JMenu("Emails");
+        JMenuItem emailPatters = new JMenuItem("Emails");
         emailPatters.setFont(new Font("Segoe UI", Font.BOLD, 15));
         notificationServiceJMenu.add(emailPatters);
 
-        JMenu sentEmails = new JMenu("Sent emails");
+        JMenuItem sentEmails = new JMenuItem("Sent emails");
         sentEmails.setFont(new Font("Segoe UI", Font.BOLD, 15));
         notificationServiceJMenu.add(sentEmails);
+        sentEmails.addActionListener(new AllSentEmailsClicked());
 
         // my account
 

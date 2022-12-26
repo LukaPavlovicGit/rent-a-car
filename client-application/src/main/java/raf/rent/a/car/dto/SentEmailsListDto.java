@@ -7,10 +7,11 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationListDto {
-    private List<ReservationDto> content = new ArrayList<>();
+public class SentEmailsListDto {
+    private List<SentEmailDto> content = new ArrayList<>();
 }

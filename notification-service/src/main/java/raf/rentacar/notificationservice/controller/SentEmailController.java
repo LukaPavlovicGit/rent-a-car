@@ -21,7 +21,7 @@ public class SentEmailController {
         this.sentEmailService = sentEmailService;
     }
 
-    @GetMapping("/all")
+    @PostMapping("/all")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<Page<SentEmailDto>> getSentEmails(@RequestHeader("Authorization") String authorization,
                                                             @ApiIgnore Pageable pageable,
@@ -29,7 +29,7 @@ public class SentEmailController {
         return new ResponseEntity<>(sentEmailService.getSentEmails(pageable, filterDto), HttpStatus.OK);
     }
 
-    @GetMapping("/by-email")
+    @PostMapping("/by-email")
     @CheckSecurity(roles = {"ROLE_MANAGER", "ROLE_CLIENT"})
     public ResponseEntity<Page<SentEmailDto>> getSentEmailsByEmail(@RequestHeader("Authorization") String authorization,
                                                                    @RequestBody SentEmailFilterDto filterDto){

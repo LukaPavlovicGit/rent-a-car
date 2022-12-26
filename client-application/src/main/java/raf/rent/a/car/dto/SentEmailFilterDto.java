@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationListDto {
-    private List<ReservationDto> content = new ArrayList<>();
+public class SentEmailFilterDto {
+
+    private String type;
+    private String email;
+    private Date lowerBound;
+    private Date upperBound;
 }

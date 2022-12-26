@@ -3,8 +3,8 @@ package raf.rent.a.car.controller;
 import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.ReservationDto;
 import raf.rent.a.car.dto.ReservationListDto;
-import raf.rent.a.car.dto.ReviewDto;
-import raf.rent.a.car.dto.ReviewListDto;
+import raf.rent.a.car.dto.VehicleDto;
+import raf.rent.a.car.dto.VehiclesListDto;
 import raf.rent.a.car.utils.MyTable;
 
 import javax.swing.*;
@@ -14,25 +14,24 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
-public class AllReviewsClicked implements ActionListener {
-
+public class AllVehiclesClicked implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainFrame.getInstance().clearContentPanel();
-        ReviewListDto list = null;
+        VehiclesListDto list = null;
         try {
-            list = MainFrame.getInstance().getReservationService().getReviews();
+            list = MainFrame.getInstance().getReservationService().getVehicles();
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
-        List<ReviewDto> content = list.getContent();
+        List<VehicleDto> content = list.getContent();
         Object [][] data = new Object[50][50];
         int k=0;
-        for (ReviewDto dto : content)
-            data[k++] = new Object[]{dto.getRate(), dto.getComment(), dto.getCompanyName(), dto.getCity()};
+        for (VehicleDto dto : content)
+            data[k++] = new Object[]{dto.getId(), dto.getType(), dto.getName(), dto.getPrice()};
 
-        String[] header = {"Rate", "Comment", "Company name", "City"};
+        String[] header = {"Id", "Type", "Name", "Price"};
         MyTable table = new MyTable(header, data);
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -51,5 +50,4 @@ public class AllReviewsClicked implements ActionListener {
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(backBtn);
         MainFrame.getInstance().refresh();
     }
-
 }

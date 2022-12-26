@@ -6,6 +6,8 @@ import okhttp3.*;
 import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.CompaniesListDto;
 import raf.rent.a.car.dto.ReservationListDto;
+import raf.rent.a.car.dto.ReviewListDto;
+import raf.rent.a.car.dto.VehiclesListDto;
 
 import java.io.IOException;
 
@@ -53,6 +55,46 @@ public class ReservationService {
 
         if (response.code() == 200)
             return objectMapper.readValue(json, ReservationListDto.class);
+
+        throw new IOException();
+    }
+
+    public ReviewListDto getReviews() throws IOException {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/reviews")
+                .addHeader("authorization", "Bearer " + token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, ReviewListDto.class);
+
+        throw new IOException();
+    }
+
+    public VehiclesListDto getVehicles() throws IOException {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/vehicles")
+                .addHeader("authorization", "Bearer " + token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, VehiclesListDto.class);
 
         throw new IOException();
     }

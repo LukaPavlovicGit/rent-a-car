@@ -24,7 +24,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_CLIENT"})
     public ResponseEntity<Page<GetReviewDto>> getReviews(@RequestHeader("Authorization") String authorization,
                                                                 @ApiIgnore Pageable pageable){
         return new ResponseEntity<>(reviewService.getReviews(pageable), HttpStatus.OK);

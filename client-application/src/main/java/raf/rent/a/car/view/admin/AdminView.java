@@ -1,20 +1,11 @@
 package raf.rent.a.car.view.admin;
 
-import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.controller.*;
-import raf.rent.a.car.dto.*;
 import raf.rent.a.car.utils.MyPanel;
-import raf.rent.a.car.utils.MyTable;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+
 
 public class AdminView extends MyPanel {
 
@@ -66,13 +57,13 @@ public class AdminView extends MyPanel {
         reservationServiceJMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
         menuBar.add(reservationServiceJMenu);
 
-        JMenuItem allCompanies = new JMenuItem("All companies");
+        JMenuItem allCompanies = new JMenuItem("Companies");
         allCompanies.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(allCompanies);
         allCompanies.addActionListener(new AllCompaniesClicked());
 
 
-        JMenuItem allReservations = new JMenuItem("All reservations");
+        JMenuItem allReservations = new JMenuItem("Reservations");
         allReservations.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(allReservations);
         allReservations.addActionListener(new AllReservationsClicked());
@@ -83,9 +74,10 @@ public class AdminView extends MyPanel {
         reservationServiceJMenu.add(allReviews);
         allReviews.addActionListener(new AllReviewsClicked());
 
-        JMenu vehicles = new JMenu("Vehicles");
-        vehicles.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        JMenuItem vehicles = new JMenuItem("Vehicles");
+        vehicles.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(vehicles);
+        vehicles.addActionListener(new AllVehiclesClicked());
 
         // notification service
         JMenu notificationServiceJMenu = new JMenu("Notification service");
@@ -93,17 +85,17 @@ public class AdminView extends MyPanel {
         menuBar.add(notificationServiceJMenu);
 
         JMenu emailPatters = new JMenu("Emails");
-        emailPatters.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        emailPatters.setFont(new Font("Segoe UI", Font.BOLD, 15));
         notificationServiceJMenu.add(emailPatters);
 
         JMenu sentEmails = new JMenu("Sent emails");
-        sentEmails.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        sentEmails.setFont(new Font("Segoe UI", Font.BOLD, 15));
         notificationServiceJMenu.add(sentEmails);
 
         // my account
 
         JMenu myAccountJMenu = new JMenu("My account");
-        myAccountJMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        myAccountJMenu.setFont(new Font("Segoe UI", Font.BOLD, 15));
         menuBar.add(myAccountJMenu);
 
         JMenuItem logout = new JMenuItem("Logout");

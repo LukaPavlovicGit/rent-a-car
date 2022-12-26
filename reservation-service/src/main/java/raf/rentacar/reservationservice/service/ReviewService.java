@@ -3,6 +3,7 @@ package raf.rentacar.reservationservice.service;
 import io.jsonwebtoken.Claims;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raf.rentacar.reservationservice.domain.Company;
@@ -45,6 +46,10 @@ public class ReviewService {
         this.mapper = mapper;
         this.reservationRepository = reservationRepository;
         this.vehicleRepository = vehicleRepository;
+    }
+
+    public Page<GetReviewDto> getReviews(Pageable pageable){
+        return reviewRepository.findAll(pageable).map(mapper::reviewToReviewDto);
     }
 
     public Page<GetReviewDto> getCompanyReviews(Long companyId){

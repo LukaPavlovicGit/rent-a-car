@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class UserService {
 
-    //public static final String URL = "http://localhost:8084/user-service/api";
     public static final String URL = "http://localhost:8000/api";
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 

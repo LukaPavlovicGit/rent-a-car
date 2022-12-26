@@ -1,6 +1,7 @@
 package raf.rent.a.car.view;
 
 import raf.rent.a.car.MainFrame;
+import raf.rent.a.car.utils.MyPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StartView extends JPanel {
+public class StartView extends MyPanel {
 
     public StartView(){
         init();

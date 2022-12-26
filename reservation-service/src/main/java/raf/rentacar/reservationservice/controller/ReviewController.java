@@ -1,6 +1,7 @@
 package raf.rentacar.reservationservice.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,9 +9,9 @@ import raf.rentacar.reservationservice.dto.CompanyAverageRate;
 import raf.rentacar.reservationservice.dto.GetReviewDto;
 import raf.rentacar.reservationservice.dto.PostReviewDto;
 import raf.rentacar.reservationservice.dto.ReviewsFilterDto;
-import raf.rentacar.reservationservice.repository.ReviewRepository;
 import raf.rentacar.reservationservice.secutiry.CheckSecurity;
 import raf.rentacar.reservationservice.service.ReviewService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/reviews")
@@ -20,6 +21,13 @@ public class ReviewController {
 
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
+    }
+
+    @GetMapping
+    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    public ResponseEntity<Page<GetReviewDto>> getReviews(@RequestHeader("Authorization") String authorization,
+                                                                @ApiIgnore Pageable pageable){
+        return new ResponseEntity<>(reviewService.getReviews(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{companyId}")

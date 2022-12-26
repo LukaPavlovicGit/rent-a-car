@@ -1,8 +1,10 @@
 package raf.rent.a.car;
 
 import raf.rent.a.car.dto.UserDto;
+import raf.rent.a.car.rest.ReservationService;
 import raf.rent.a.car.rest.UserService;
 import raf.rent.a.car.tokenDecoder.TokenDecoder;
+import raf.rent.a.car.utils.MyPanel;
 import raf.rent.a.car.view.LoginView;
 import raf.rent.a.car.view.StartView;
 import raf.rent.a.car.view.admin.AdminView;
@@ -19,12 +21,14 @@ public class MainFrame extends JFrame {
     private TokenDecoder tokenDecoder;
 
     private UserService userService;
+    private ReservationService reservationService;
 
-    private StartView startView;
-    private CreateManagerView createManagerView;
-    private CreateClientView createClientView;
-    private LoginView loginView;
-    private AdminView adminView;
+    private MyPanel currentPanel = null;
+    private MyPanel startView;
+    private MyPanel createManagerView;
+    private MyPanel createClientView;
+    private MyPanel loginView;
+    private MyPanel adminView;
 
     public static MainFrame getInstance() {
         if (instance == null) {
@@ -41,6 +45,7 @@ public class MainFrame extends JFrame {
 
         tokenDecoder = new TokenDecoder();
         userService = new UserService();
+        reservationService = new ReservationService();
 
         startView = new StartView();
         createManagerView = new CreateManagerView();
@@ -52,6 +57,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showStartView(){
+        currentPanel = startView;
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(startView);
@@ -59,6 +65,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showCreateManagerView(){
+        currentPanel = createManagerView;
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(createManagerView);
@@ -66,6 +73,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showCreateClientView(){
+        currentPanel = createClientView;
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(createClientView);
@@ -73,6 +81,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showLoginView(){
+        currentPanel = loginView;
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(loginView);
@@ -80,16 +89,27 @@ public class MainFrame extends JFrame {
     }
 
     public void showAdminView(){
+        currentPanel = adminView;
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(adminView);
         this.getContentPane().setVisible(true);
     }
 
-    public void refresh(JPanel jPanel){
+    public void refresh(){
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
-        this.getContentPane().add(jPanel);
+        this.getContentPane().add(currentPanel);
+        this.getContentPane().setVisible(true);
+    }
+    public void clearContentPanel(){
+        currentPanel.clearContentPanel();
+    }
+    public void clearContentPanelAndRefresh(){
+        currentPanel.clearContentPanel();
+        this.getContentPane().setVisible(false);
+        this.getContentPane().removeAll();
+        this.getContentPane().add(currentPanel);
         this.getContentPane().setVisible(true);
     }
 
@@ -113,7 +133,11 @@ public class MainFrame extends JFrame {
         return userService;
     }
 
-    public void setTokenDecoder(TokenDecoder tokenDecoder) {
-        this.tokenDecoder = tokenDecoder;
+    public ReservationService getReservationService() {
+        return reservationService;
+    }
+
+    public MyPanel getCurrentPanel() {
+        return currentPanel;
     }
 }

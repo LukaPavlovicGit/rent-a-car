@@ -1,12 +1,14 @@
 package raf.rentacar.reservationservice.service;
 
 import io.jsonwebtoken.Claims;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -45,19 +47,19 @@ public class ReservationService {
     private TokenService tokenService;
     private Mapper mapper;
     private RestTemplate userServiceRestTemplate;
-    private Retry userServiceRetry;
+    //private Retry userServiceRetry;
     private JmsTemplate jmsTemplate;
     private MessageHelper messageHelper;
 
     public ReservationService(ReservationRepository reservationRepository, VehicleRepository vehicleRepository, CompanyRepository companyRepository, TokenService tokenService,
-                              Mapper mapper, RestTemplate userServiceRestTemplate, Retry userServiceRetry, JmsTemplate jmsTemplate, MessageHelper messageHelper) {
+                              Mapper mapper, RestTemplate userServiceRestTemplate, /*Retry userServiceRetry,*/ JmsTemplate jmsTemplate, MessageHelper messageHelper) {
         this.reservationRepository = reservationRepository;
         this.vehicleRepository = vehicleRepository;
         this.companyRepository = companyRepository;
         this.tokenService = tokenService;
         this.mapper = mapper;
         this.userServiceRestTemplate = userServiceRestTemplate;
-        this.userServiceRetry = userServiceRetry;
+        //this.userServiceRetry = userServiceRetry;
         this.jmsTemplate = jmsTemplate;
         this.messageHelper = messageHelper;
     }
@@ -114,6 +116,9 @@ public class ReservationService {
         long timeDiff = Math.abs(end.getTime() - start.getTime());
         long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 
+/* **************************************************************
+         NECE DA AUTOWIRE userServiceRetry
+
         ResponseEntity<DiscountDto>
               discountDtoResponseEntity = Retry.decorateSupplier(
                       userServiceRetry,
@@ -123,6 +128,15 @@ public class ReservationService {
                               null,
                               DiscountDto.class)
               ).get();
+*/
+
+        ResponseEntity<DiscountDto> discountDtoResponseEntity =
+                userServiceRestTemplate.exchange(
+                    "/users/discount/"+clientId,
+                    HttpMethod.GET,
+                    null,
+                    DiscountDto.class
+                );
 
         DiscountDto discountDto = discountDtoResponseEntity.getBody();
         System.out.println("RESERVATION CREATION - discount value: "+discountDto.getDiscount());

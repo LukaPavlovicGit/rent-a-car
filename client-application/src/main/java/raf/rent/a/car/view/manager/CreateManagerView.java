@@ -5,6 +5,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.ManagerDto;
+import raf.rent.a.car.utils.MyPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,7 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateManagerView extends JPanel {
+public class CreateManagerView extends MyPanel {
 
     public CreateManagerView(){
         init();

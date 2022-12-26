@@ -3,6 +3,7 @@ package raf.rent.a.car.view.client;
 import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.ClientDto;
 import raf.rent.a.car.dto.ManagerDto;
+import raf.rent.a.car.utils.MyPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateClientView extends JPanel {
+public class CreateClientView extends MyPanel {
 
     public CreateClientView(){
         init();

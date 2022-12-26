@@ -31,12 +31,12 @@ public class CompanyController {
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
     public ResponseEntity<CompanyDto> getCompany(@RequestHeader("Authorization") String authorization,
-                                                       @PathVariable("id") Long id) {
+                                                 @PathVariable("id") Long id) {
         return new ResponseEntity<>(companyService.getCompany(id), HttpStatus.OK);
     }
 
     @GetMapping("/vehicles")
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
+    @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<Page<VehicleDto>> getVehicles(@RequestHeader("Authorization") String authorization) {
         return new ResponseEntity<>(companyService.getVehicles(authorization), HttpStatus.OK);
     }

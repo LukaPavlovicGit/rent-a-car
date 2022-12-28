@@ -56,6 +56,46 @@ public class ReservationService {
         throw new IOException();
     }
 
+    public ReservationListDto getReservationsByCompany() throws IOException {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/reservations/by-company")
+                .addHeader("authorization", "Bearer " + token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, ReservationListDto.class);
+
+        throw new IOException();
+    }
+    public void deleteReservation(String reservationId) throws IOException {
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(URL + "/reservations").newBuilder();
+        httpBuilder.addQueryParameter("id", reservationId);
+        String token = MainFrame.getInstance().getToken();
+
+
+        Request request = new Request.Builder()
+                .url(httpBuilder.build())
+                .addHeader("authorization", "Bearer " + token)
+                .delete()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (response.code() == 200)
+            return;
+
+        throw new IOException();
+    }
+
     public ReviewListDto getReviews() throws IOException {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String token = MainFrame.getInstance().getToken();

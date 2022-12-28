@@ -57,7 +57,7 @@ public class ManagerView extends MyPanel {
         JMenuItem reservationByCompany = new JMenuItem("Reservations");
         reservationByCompany.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(reservationByCompany);
-        reservationByCompany.addActionListener(new ReservationsByCompanyClicked());
+        reservationByCompany.addActionListener(new AllReservationsByCompanyClicked());
 
         JMenuItem deleteReservation = new JMenuItem("Delete reservation");
         deleteReservation.setFont(new Font("Segoe UI", Font.BOLD, 15));

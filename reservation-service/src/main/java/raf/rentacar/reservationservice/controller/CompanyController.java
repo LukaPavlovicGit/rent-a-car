@@ -34,12 +34,6 @@ public class CompanyController {
                                                  @PathVariable("id") Long id) {
         return new ResponseEntity<>(companyService.getCompany(id), HttpStatus.OK);
     }
-
-    @GetMapping("/vehicles")
-    @CheckSecurity(roles = {"ROLE_MANAGER"})
-    public ResponseEntity<Page<VehicleDto>> getVehicles(@RequestHeader("Authorization") String authorization) {
-        return new ResponseEntity<>(companyService.getVehicles(authorization), HttpStatus.OK);
-    }
     @PostMapping
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<CompanyDto> createCompany(@RequestHeader("Authorization") String authorization,

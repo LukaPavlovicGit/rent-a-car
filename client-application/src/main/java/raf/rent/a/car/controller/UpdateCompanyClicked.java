@@ -53,7 +53,7 @@ public class UpdateCompanyClicked implements ActionListener {
         descriptionTa.setBounds(220, 222,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(descriptionTa);
 
-        JButton create = new JButton("Create");
+        JButton create = new JButton("Update");
         create.setForeground(Color.WHITE);
         create.setBackground(Color.BLACK);
         create.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -62,7 +62,7 @@ public class UpdateCompanyClicked implements ActionListener {
         create.addActionListener(event -> {
             try {
                 CompanyDto companyDto = new CompanyDto(nameTa.getText(),cityTa.getText(),descriptionTa.getText());
-                MainFrame.getInstance().getReservationService().createCompany(companyDto);
+                MainFrame.getInstance().getReservationService().updateCompany(companyDto);
                 MainFrame.getInstance().clearContentPanelAndRefresh();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

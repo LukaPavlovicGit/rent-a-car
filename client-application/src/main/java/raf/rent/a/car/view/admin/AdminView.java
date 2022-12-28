@@ -37,7 +37,7 @@ public class AdminView extends MyPanel {
         menuBar.add(userServiceJMenu);
 
         JMenu users = new JMenu("Users");
-        users.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        users.setFont(new Font("Segoe UI", Font.BOLD, 15));
         userServiceJMenu.add(users);
 
         JMenuItem allUsers = new JMenuItem("All users");
@@ -49,7 +49,7 @@ public class AdminView extends MyPanel {
         accountBlocking.addActionListener(new AccountBlockingClicked());
 
         JMenu ranks = new JMenu("Ranks");
-        ranks.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        ranks.setFont(new Font("Segoe UI", Font.BOLD, 15));
         userServiceJMenu.add(ranks);
 
         // reservation service

@@ -63,7 +63,7 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<GetReservationDto> deleteReservation(@RequestHeader("Authorization") String authorization,
-                                                            @PathVariable Long id) {
+                                                               @PathVariable Long id) {
         return new ResponseEntity<>(reservationService.deleteReservation(authorization, id), HttpStatus.OK);
     }
 }

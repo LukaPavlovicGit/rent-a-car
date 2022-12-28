@@ -43,16 +43,6 @@ public class CompanyService {
         return mapper.companyToCompanyDto(company);
     }
 
-    public Page<VehicleDto> getVehicles(String authorization) {
-        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
-        Long managerId = claims.get("id", Integer.class).longValue();
-        Company company = companyRepository.findCompanyByManagerId(managerId)
-                .orElseThrow(() -> new NotFoundException(String.format("The company whose manager has id: %d is not found!", managerId)));
-
-        List<Vehicle> list = new ArrayList<>(company.getVehicles());
-        return new PageImpl<>(list.stream().map(mapper::vehicleToVehicleDto).collect(Collectors.toList()));
-    }
-
     public CompanyDto createCompany(String authorization, CompanyDto companyDto){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long managerId = claims.get("id", Integer.class).longValue();

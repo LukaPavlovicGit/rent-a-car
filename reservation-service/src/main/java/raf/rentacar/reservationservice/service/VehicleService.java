@@ -17,6 +17,7 @@ import raf.rentacar.reservationservice.repository.VehicleRepository;
 import raf.rentacar.reservationservice.secutiry.tokenService.TokenService;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,15 +40,25 @@ public class VehicleService {
     public Page<VehicleDto> getVehicles(Pageable pageable) {
         return vehicleRepository.findAll(pageable).map(mapper::vehicleToVehicleDto);
     }
+    public Page<VehicleDto> getVehicles(String authorization) {
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long managerId = claims.get("id", Integer.class).longValue();
+        Company company = companyRepository.findCompanyByManagerId(managerId)
+                .orElseThrow(() -> new NotFoundException(String.format("The company whose manager has id: %d is not found!", managerId)));
 
+        List<Vehicle> list = new ArrayList<>(company.getVehicles());
+        return new PageImpl<>(list.stream().map(mapper::vehicleToVehicleDto).collect(Collectors.toList()));
+    }
     public Page<VehicleDto> getVehiclesByCompany(String authorization, Pageable pageable) {
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long managerId = claims.get("id", Integer.class).longValue();
         Company company = companyRepository.findCompanyByManagerId(managerId)
                 .orElseThrow(() -> new NotFoundException(String.format("The company whose manager has id: %d is not found!", managerId)));
 
-        List<VehicleDto> vehicleDtos = vehicleRepository.findAllByCompany(company).stream().map(mapper::vehicleToVehicleDto).collect(Collectors.toList());
-        return new PageImpl<>(vehicleDtos);
+        List<Vehicle> list = new ArrayList<>(company.getVehicles());
+        return new PageImpl<>(list.stream().map(mapper::vehicleToVehicleDto).collect(Collectors.toList()));
+//        List<VehicleDto> vehicleDtos = vehicleRepository.findAllByCompany(company).stream().map(mapper::vehicleToVehicleDto).collect(Collectors.toList());
+//        return new PageImpl<>(vehicleDtos);
     }
 
     public VehicleDto getVehicle(String authorization, Long id) {

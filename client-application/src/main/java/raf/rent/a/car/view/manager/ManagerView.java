@@ -64,5 +64,32 @@ public class ManagerView extends MyPanel {
         reservationServiceJMenu.add(deleteReservation);
         deleteReservation.addActionListener(new DeleteReservationClicked());
 
+        // my account
+
+        JMenu myAccountJMenu = new JMenu("My account");
+        myAccountJMenu.setForeground(Color.WHITE);
+        myAccountJMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        menuBar.add(myAccountJMenu);
+
+        JMenuItem logout = new JMenuItem("Logout");
+        logout.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        myAccountJMenu.add(logout);
+        logout.addActionListener(new LogoutClicked());
+
+        JMenuItem profileUpdate = new JMenuItem("Profile update");
+        profileUpdate.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        myAccountJMenu.add(profileUpdate);
+        profileUpdate.addActionListener(new AdminProfileUpdateClicked());
+
+        JMenuItem changePassword = new JMenuItem("Password change");
+        changePassword.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        myAccountJMenu.add(changePassword);
+        changePassword.addActionListener(new PasswordChangeClicked());
+
+        JMenuItem deleteAccount = new JMenuItem("Delete account");
+        deleteAccount.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        myAccountJMenu.add(deleteAccount);
+        deleteAccount.addActionListener(new DeleteAccountClicked());
+
     }
 }

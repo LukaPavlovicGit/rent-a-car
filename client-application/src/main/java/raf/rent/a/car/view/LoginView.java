@@ -51,7 +51,7 @@ public class LoginView extends MyPanel {
 
         JButton loginBtn = new JButton("Login");
         loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 26));
-        loginBtn.setBounds(545, 392, 162, 73);
+        loginBtn.setBounds(545, 392, 193, 83);
         add(loginBtn);
         loginBtn.addActionListener(e -> {
 

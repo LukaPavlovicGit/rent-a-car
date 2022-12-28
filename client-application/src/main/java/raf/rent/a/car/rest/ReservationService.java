@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import raf.rent.a.car.MainFrame;
-import raf.rent.a.car.dto.CompaniesListDto;
-import raf.rent.a.car.dto.ReservationListDto;
-import raf.rent.a.car.dto.ReviewListDto;
-import raf.rent.a.car.dto.VehiclesListDto;
+import raf.rent.a.car.dto.*;
 
 import java.io.IOException;
 
@@ -97,5 +94,40 @@ public class ReservationService {
             return objectMapper.readValue(json, VehiclesListDto.class);
 
         throw new IOException();
+    }
+
+    public void createCompany(CompanyDto companyDto) throws IOException {
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(companyDto));
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/companies")
+                .addHeader("authorization", "Bearer " + token)
+                .post(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (!response.isSuccessful())
+            throw new IOException();
+    }
+    public void updateCompany(CompanyDto companyDto) throws IOException {
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(companyDto));
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/companies")
+                .addHeader("authorization", "Bearer " + token)
+                .put(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (!response.isSuccessful())
+            throw new IOException();
     }
 }

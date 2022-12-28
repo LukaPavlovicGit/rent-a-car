@@ -11,6 +11,7 @@ import raf.rent.a.car.view.StartView;
 import raf.rent.a.car.view.admin.AdminView;
 import raf.rent.a.car.view.client.CreateClientView;
 import raf.rent.a.car.view.manager.CreateManagerView;
+import raf.rent.a.car.view.manager.ManagerView;
 
 import javax.swing.*;
 
@@ -31,6 +32,7 @@ public class MainFrame extends JFrame {
     private MyPanel createClientView;
     private MyPanel loginView;
     private MyPanel adminView;
+    private MyPanel managerView;
 
     public static MainFrame getInstance() {
         if (instance == null) {
@@ -55,6 +57,7 @@ public class MainFrame extends JFrame {
         createClientView = new CreateClientView();
         loginView = new LoginView();
         adminView = new AdminView();
+        managerView = new ManagerView();
 
         showStartView();
     }
@@ -96,6 +99,13 @@ public class MainFrame extends JFrame {
         this.getContentPane().setVisible(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(adminView);
+        this.getContentPane().setVisible(true);
+    }
+    public void showManagerView(){
+        currentPanel = managerView;
+        this.getContentPane().setVisible(false);
+        this.getContentPane().removeAll();
+        this.getContentPane().add(managerView);
         this.getContentPane().setVisible(true);
     }
 

@@ -64,12 +64,10 @@ public class LoginView extends MyPanel {
                 usernameTf.setText("");
                 passwordTf.setText("");
 
-                if(role.equals("ROLE_ADMIN")){
+                if(role.equals("ROLE_ADMIN"))
                     MainFrame.getInstance().showAdminView();
-                }
-                else if(role.equals("ROLE_MANAGER")){
-
-                }
+                else if(role.equals("ROLE_MANAGER"))
+                    MainFrame.getInstance().showManagerView();
                 else if(role.equals("ROLE_CLIENT")){
 
                 }

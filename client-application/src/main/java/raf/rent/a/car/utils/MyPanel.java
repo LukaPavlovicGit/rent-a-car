@@ -25,4 +25,8 @@ public class MyPanel extends JPanel {
     public void clearContentPanel(){
         contentPanel.removeAll();
     }
+
+    protected void setContentPanelBackground(Color color){
+        contentPanel.setBackground(color);
+    }
 }

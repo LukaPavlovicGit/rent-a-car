@@ -188,4 +188,65 @@ public class ReservationService {
         if (!response.isSuccessful())
             throw new IOException();
     }
+
+    public void deleteVehicle(String vehicleId) throws IOException {
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(URL + "/vehicles").newBuilder();
+        httpBuilder.addQueryParameter("id", vehicleId);
+        String token = MainFrame.getInstance().getToken();
+
+
+        Request request = new Request.Builder()
+                .url(httpBuilder.build())
+                .addHeader("authorization", "Bearer " + token)
+                .delete()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (response.code() == 200)
+            return;
+
+        throw new IOException();
+    }
+
+    public void updateVehicle(String vehicleId, VehicleDto vehicleDto) throws IOException {
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(URL + "/vehicles").newBuilder();
+        httpBuilder.addQueryParameter("id", vehicleId);
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(vehicleDto));
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(httpBuilder.build())
+                .addHeader("authorization", "Bearer " + token)
+                .put(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (!response.isSuccessful())
+            throw new IOException();
+    }
+
+    public VehiclesListDto getVehiclesByCompany() throws IOException {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/vehicles/by-company")
+                .addHeader("authorization", "Bearer " + token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, VehiclesListDto.class);
+
+        throw new IOException();
+    }
 }

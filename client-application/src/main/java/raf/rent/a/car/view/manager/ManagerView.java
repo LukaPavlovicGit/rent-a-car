@@ -72,7 +72,7 @@ public class ManagerView extends MyPanel {
         JMenuItem updateVehicle = new JMenuItem("Update vehicle");
         updateVehicle.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(updateVehicle);
-        updateVehicle.addActionListener(new UpdateCompanyClicked());
+        updateVehicle.addActionListener(new UpdateVehicleClicked());
 
         JMenuItem deleteVehicle = new JMenuItem("Delete vehicle");
         deleteVehicle.setFont(new Font("Segoe UI", Font.BOLD, 15));

@@ -4,6 +4,7 @@ import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.TokenRequestDto;
 import raf.rent.a.car.tokenDecoder.TokenDecoder;
 import raf.rent.a.car.utils.MyPanel;
+import raf.rent.a.car.view.manager.ManagerView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -68,9 +69,9 @@ public class LoginView extends MyPanel {
                     MainFrame.getInstance().showAdminView();
                 else if(role.equals("ROLE_MANAGER"))
                     MainFrame.getInstance().showManagerView();
-                else if(role.equals("ROLE_CLIENT")){
+                else if(role.equals("ROLE_CLIENT"))
+                    MainFrame.getInstance().showClientView();
 
-                }
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid credentials or blocked account!", "Error", JOptionPane.ERROR_MESSAGE);
             }

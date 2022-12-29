@@ -170,6 +170,23 @@ public class ReservationService {
         if (!response.isSuccessful())
             throw new IOException();
     }
+    public void deleteCompany() throws IOException {
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/companies")
+                .addHeader("authorization", "Bearer " + token)
+                .delete()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (response.code() == 200)
+            return;
+
+        throw new IOException();
+    }
 
     public void createVehicle(VehicleDto vehicleDto) throws IOException {
         RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(vehicleDto));

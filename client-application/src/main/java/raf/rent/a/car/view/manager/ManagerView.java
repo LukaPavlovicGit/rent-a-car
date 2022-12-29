@@ -33,12 +33,12 @@ public class ManagerView extends MyPanel {
         this.add(menuBar);
 
         // reservation service
-            // company
+
         JMenu reservationServiceJMenu = new JMenu("Reservation service");
         reservationServiceJMenu.setForeground(Color.WHITE);
         reservationServiceJMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
         menuBar.add(reservationServiceJMenu);
-
+            // company
         JMenuItem createCompany = new JMenuItem("Create company");
         createCompany.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(createCompany);
@@ -52,7 +52,7 @@ public class ManagerView extends MyPanel {
         JMenuItem deleteCompany = new JMenuItem("Delete company");
         deleteCompany.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(deleteCompany);
-        deleteCompany.addActionListener(new UpdateCompanyClicked());
+        deleteCompany.addActionListener(new DeleteCompanyClicked());
             // reservation
         JMenuItem reservationByCompany = new JMenuItem("Reservations");
         reservationByCompany.setFont(new Font("Segoe UI", Font.BOLD, 15));
@@ -83,6 +83,17 @@ public class ManagerView extends MyPanel {
         allVehicles.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(allVehicles);
         allVehicles.addActionListener(new AllVehiclesByCompanyClicked());
+
+        // notification service
+        JMenu notificationServiceJMenu = new JMenu("Notification service");
+        notificationServiceJMenu.setForeground(Color.WHITE);
+        notificationServiceJMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        menuBar.add(notificationServiceJMenu);
+
+        JMenuItem myNotifications = new JMenuItem("My notifications");
+        myNotifications.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        notificationServiceJMenu.add(myNotifications);
+        myNotifications.addActionListener(new AllSentEmailsByEmailClicked());
 
         // my account
 

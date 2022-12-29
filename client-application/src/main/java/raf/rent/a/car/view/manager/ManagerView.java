@@ -63,6 +63,26 @@ public class ManagerView extends MyPanel {
         deleteReservation.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(deleteReservation);
         deleteReservation.addActionListener(new DeleteReservationClicked());
+            // vehicles
+        JMenuItem createVehicle = new JMenuItem("Create vehicle");
+        createVehicle.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(createVehicle);
+        createVehicle.addActionListener(new CreateVehicleClicked());
+
+        JMenuItem updateVehicle = new JMenuItem("Update vehicle");
+        updateVehicle.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(updateVehicle);
+        updateVehicle.addActionListener(new UpdateCompanyClicked());
+
+        JMenuItem deleteVehicle = new JMenuItem("Delete vehicle");
+        deleteVehicle.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(deleteVehicle);
+        deleteVehicle.addActionListener(new DeleteVehicle());
+
+        JMenuItem allVehicles = new JMenuItem("Vehicles");
+        allVehicles.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(allVehicles);
+        allVehicles.addActionListener(new AllVehiclesByCompanyClicked());
 
         // my account
 

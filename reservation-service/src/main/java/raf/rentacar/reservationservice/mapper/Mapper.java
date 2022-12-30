@@ -11,7 +11,7 @@ import raf.rentacar.reservationservice.dto.*;
 public class Mapper {
 
     public CompanyDto companyToCompanyDto(Company company){
-        return new CompanyDto(company.getManagerId(),company.getName(),company.getCity(),company.getDescription());
+        return new CompanyDto(company.getId(),company.getManagerId(),company.getName(),company.getCity(),company.getDescription());
     }
     public Company companyDtoToCompany(CompanyDto companyDto){
         return new Company(companyDto.getManagerId(),companyDto.getName(),companyDto.getCity(),companyDto.getDescription());

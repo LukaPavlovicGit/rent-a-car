@@ -18,5 +18,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findAllByVehicleId(Long vehicleId);
 
+    List<Reservation> findAllByUserId(Long userId);
+
     List<Reservation> findAllByCanceled(boolean canceled);
 }

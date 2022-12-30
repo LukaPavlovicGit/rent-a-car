@@ -50,18 +50,30 @@ public class Seeder implements CommandLineRunner {
         admin.setRole(roleAdmin);
         admin.setActivated(true);
 
-        User manager = new User("m1", "m1", "m1", "m1", "m1@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
-        manager.setRole(roleManager);
-        manager.setRank(silver);
-        manager.setActivated(true);
+        User manager1 = new User("m1", "m1", "m1", "m1", "m1@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
+        manager1.setRole(roleManager);
+        manager1.setRank(silver);
+        manager1.setActivated(true);
 
-        User client = new User("c1", "c1", "c1", "c1", "c1@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
+        User manager2 = new User("m2", "m2", "m2", "m2", "m2@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
+        manager2.setRole(roleManager);
+        manager2.setRank(silver);
+        manager2.setActivated(true);
+
+        User manager3 = new User("m3", "m3", "m3", "m3", "m3@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
+        manager3.setRole(roleManager);
+        manager3.setRank(silver);
+        manager3.setActivated(true);
+
+        User client = new User("c1", "c1", "c1", "c1", "lukapavlovic032@gmail.com", "064111", Date.valueOf("1990-10-10"), "111111");
         client.setRole(roleClient);
         client.setRank(silver);
         client.setActivated(true);
 
         userRepository.save(admin);
-        userRepository.save(manager);
+        userRepository.save(manager1);
+        userRepository.save(manager2);
+        userRepository.save(manager3);
         userRepository.save(client);
     }
 }

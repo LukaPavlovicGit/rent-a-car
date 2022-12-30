@@ -22,14 +22,14 @@ public class VehicleController {
     }
 
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    @CheckSecurity(roles = {"ROLE_ADMIN","ROLE_CLIENT"})
     public ResponseEntity<Page<VehicleDto>> getVehicles(@RequestHeader("Authorization") String authorization,
                                                         @ApiIgnore Pageable pageable) {
         return new ResponseEntity<>(vehicleService.getVehicles(pageable), HttpStatus.OK);
     }
     @GetMapping("/by-company")
     @CheckSecurity(roles = {"ROLE_MANAGER"})
-    public ResponseEntity<Page<VehicleDto>> getVehiclesByCompanyId(@RequestHeader("Authorization") String authorization,
+    public ResponseEntity<Page<VehicleDto>> getVehiclesByCompany(@RequestHeader("Authorization") String authorization,
                                                                    @ApiIgnore Pageable pageable) {
         return new ResponseEntity<>(vehicleService.getVehiclesByCompany(authorization, pageable), HttpStatus.OK);
     }

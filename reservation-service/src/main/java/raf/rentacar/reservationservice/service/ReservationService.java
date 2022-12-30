@@ -77,6 +77,13 @@ public class ReservationService {
         List<GetReservationDto> reservationDtos = reservationRepository.findAllByCompanyId(company.getId()).stream().map(mapper::reservationToReservationDto).collect(Collectors.toList());
         return new PageImpl<>(reservationDtos);
     }
+    //client
+    public Page<GetReservationDto> getReservationsByClient(String authorization){
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long clientId = claims.get("id", Integer.class).longValue();
+        List<GetReservationDto> reservationDtos = reservationRepository.findAllByUserId(clientId).stream().map(mapper::reservationToReservationDto).collect(Collectors.toList());
+        return new PageImpl<>(reservationDtos);
+    }
     //admin manager
     public GetReservationDto getReservation(String authorization, Long id){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
@@ -172,7 +179,6 @@ public class ReservationService {
             true
         );
         jmsTemplate.convertAndSend("reservation_queue", messageHelper.createTextMessage(messageTransferDto));
-
         return mapper.reservationToReservationDto(reservation);
     }
 

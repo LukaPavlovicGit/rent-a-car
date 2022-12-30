@@ -33,6 +33,12 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.getReservationsByCompany(authorization), HttpStatus.OK);
     }
 
+    @GetMapping("/by-client")
+    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    public ResponseEntity<Page<GetReservationDto>> getReservationsByClient(@RequestHeader("Authorization") String authorization) {
+        return new ResponseEntity<>(reservationService.getReservationsByCompany(authorization), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
     public ResponseEntity<GetReservationDto> getReservation(@RequestHeader("Authorization") String authorization,

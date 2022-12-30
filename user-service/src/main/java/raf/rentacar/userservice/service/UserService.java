@@ -252,7 +252,7 @@ public class UserService {
         return mapper.userToUserDto(user);
     }
 
-    public UserDto incrementTotalDays(String authorization, Long id, Integer numberOfDays) {
+    public UserDto incrementTotalDays(Long id, Integer numberOfDays) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
         user.setTotalDays(user.getTotalDays() + numberOfDays);
         if(user.getTotalDays() >= user.getRank().getUpperBound())
@@ -261,7 +261,7 @@ public class UserService {
         return mapper.userToUserDto(user);
     }
 
-    public UserDto decrementTotalDays(String authorization, Long id, Integer numberOfDays) {
+    public UserDto decrementTotalDays(Long id, Integer numberOfDays) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found!", id)));
         if(user.getTotalDays() == 0)
             return mapper.userToUserDto(user);

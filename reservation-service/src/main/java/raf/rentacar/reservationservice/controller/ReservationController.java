@@ -36,7 +36,7 @@ public class ReservationController {
     @GetMapping("/by-client")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<Page<GetReservationDto>> getReservationsByClient(@RequestHeader("Authorization") String authorization) {
-        return new ResponseEntity<>(reservationService.getReservationsByCompany(authorization), HttpStatus.OK);
+        return new ResponseEntity<>(reservationService.getReservationsByClient(authorization), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

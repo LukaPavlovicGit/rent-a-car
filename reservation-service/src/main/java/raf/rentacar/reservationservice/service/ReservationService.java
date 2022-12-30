@@ -1,17 +1,15 @@
 package raf.rentacar.reservationservice.service;
 
 import io.jsonwebtoken.Claims;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import raf.rentacar.reservationservice.domain.Company;
 import raf.rentacar.reservationservice.domain.Reservation;
 import raf.rentacar.reservationservice.domain.Vehicle;
@@ -26,14 +24,15 @@ import raf.rentacar.reservationservice.repository.CompanyRepository;
 import raf.rentacar.reservationservice.repository.ReservationRepository;
 import raf.rentacar.reservationservice.repository.VehicleRepository;
 import raf.rentacar.reservationservice.secutiry.tokenService.TokenService;
-import io.github.resilience4j.retry.Retry;
 
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -164,13 +163,51 @@ public class ReservationService {
         reservation.setTotalPrice(totalPrice);
         reservationRepository.save(reservation);
 
+        Map<String, Long> params = new HashMap<>();
+        params.put("daysDiff", daysDiff);
+
         userServiceRestTemplate.exchange(
                 "/users/increment-days/"+clientId,
-                HttpMethod.POST,
+                HttpMethod.PUT,
                 null,
                 ResponseEntity.class,
-                (int) daysDiff
+                params
         );
+
+        /*
+
+HttpHeaders headers = new HttpHeaders();
+headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+HttpEntity<?> entity = new HttpEntity<>(headers);
+
+String urlTemplate = UriComponentsBuilder.fromHttpUrl(url)
+        .queryParam("msisdn", "{msisdn}")
+        .queryParam("email", "{email}")
+        .queryParam("clientVersion", "{clientVersion}")
+        .queryParam("clientType", "{clientType}")
+        .queryParam("issuerName", "{issuerName}")
+        .queryParam("applicationName", "{applicationName}")
+        .encode()
+        .toUriString();
+
+Map<String, ?> params = new HashMap<>();
+params.put("msisdn", msisdn);
+params.put("email", email);
+params.put("clientVersion", clientVersion);
+params.put("clientType", clientType);
+params.put("issuerName", issuerName);
+params.put("applicationName", applicationName);
+
+HttpEntity<String> response = restOperations.exchange(
+        urlTemplate,
+        HttpMethod.GET,
+        entity,
+        String.class,
+        params
+);
+
+
+         */
         MessageTransferDto messageTransferDto = new MessageTransferDto(
             firstname,
             lastname,
@@ -209,7 +246,7 @@ public class ReservationService {
 
         userServiceRestTemplate.exchange(
                 "/users/decrement-days/"+clientId,
-                HttpMethod.POST,
+                HttpMethod.PUT,
                 null,
                 ResponseEntity.class,
                 (int) daysDiff

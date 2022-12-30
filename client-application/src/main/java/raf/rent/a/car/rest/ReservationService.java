@@ -36,6 +36,26 @@ public class ReservationService {
         throw new IOException();
     }
 
+    public CompanyAverageRateList getTopRatedCompanies() throws IOException {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/reviews/top-rated-companies")
+                .addHeader("authorization", "Bearer " + token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, CompanyAverageRateList.class);
+
+        throw new IOException();
+    }
+
     public ReservationListDto getReservations() throws IOException {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String token = MainFrame.getInstance().getToken();
@@ -62,6 +82,26 @@ public class ReservationService {
 
         Request request = new Request.Builder()
                 .url(URL + "/reservations/by-company")
+                .addHeader("authorization", "Bearer " + token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, ReservationListDto.class);
+
+        throw new IOException();
+    }
+
+    public ReservationListDto getReservationsByClient() throws IOException {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/reservations/by-client")
                 .addHeader("authorization", "Bearer " + token)
                 .get()
                 .build();

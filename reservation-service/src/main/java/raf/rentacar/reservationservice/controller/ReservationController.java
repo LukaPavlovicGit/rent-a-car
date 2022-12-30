@@ -42,7 +42,7 @@ public class ReservationController {
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
     public ResponseEntity<GetReservationDto> getReservation(@RequestHeader("Authorization") String authorization,
-                                                            @PathVariable Long id) {
+                                                            @PathVariable("id") Long id) {
         return new ResponseEntity<>(reservationService.getReservation(authorization, id), HttpStatus.OK);
     }
     @PostMapping
@@ -55,21 +55,21 @@ public class ReservationController {
     @PutMapping("/cancel-reservation/{id}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<GetReservationDto> cancelReservation(@RequestHeader("Authorization") String authorization,
-                                                               @PathVariable Long id) {
+                                                               @PathVariable("id") Long id) {
         return new ResponseEntity<>(reservationService.cancelReservation(authorization, id), HttpStatus.OK);
     }
 
     @PutMapping("/update-reservation/{id}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<GetReservationDto> updateReservation(@RequestHeader("Authorization") String authorization,
-                                                               @PathVariable Long id) {
+                                                               @PathVariable("id") Long id) {
         return null;
     }
 
     @DeleteMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_MANAGER"})
+    @CheckSecurity(roles = {"ROLE_MANAGER", "ROLE_CLIENT"})
     public ResponseEntity<GetReservationDto> deleteReservation(@RequestHeader("Authorization") String authorization,
-                                                               @PathVariable Long id) {
+                                                               @PathVariable("id") Long id) {
         return new ResponseEntity<>(reservationService.deleteReservation(authorization, id), HttpStatus.OK);
     }
 }

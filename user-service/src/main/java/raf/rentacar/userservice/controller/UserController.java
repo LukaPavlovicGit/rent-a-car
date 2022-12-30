@@ -105,13 +105,13 @@ public class UserController {
 
     @PutMapping("/increment-days/{id}")
     public ResponseEntity<UserDto> incrementTotalDays(@PathVariable("id") Long id,
-                                                      @RequestParam Integer numberOfDays){
+                                                      @RequestBody Integer numberOfDays){
         return new ResponseEntity<>(userService.incrementTotalDays(id, numberOfDays), HttpStatus.OK);
     }
 
     @PutMapping("/decrement-days/{id}")
     public ResponseEntity<UserDto> decrementTotalDays(@PathVariable("id") Long id,
-                                                      @RequestParam Integer numberOfDays){
+                                                      @RequestBody Integer numberOfDays){
         return new ResponseEntity<>(userService.decrementTotalDays(id, numberOfDays), HttpStatus.OK);
     }
 

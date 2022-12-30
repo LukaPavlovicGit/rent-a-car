@@ -2,6 +2,8 @@ package raf.rent.a.car.controller;
 
 import raf.rent.a.car.MainFrame;
 import raf.rent.a.car.dto.CompaniesListDto;
+import raf.rent.a.car.dto.CompanyAverageRate;
+import raf.rent.a.car.dto.CompanyAverageRateList;
 import raf.rent.a.car.dto.CompanyDto;
 import raf.rent.a.car.utils.MyTable;
 
@@ -16,20 +18,20 @@ public class TopRatedCompaniesClicked implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainFrame.getInstance().clearContentPanel();
-        CompaniesListDto list = null;
+        CompanyAverageRateList list = null;
         try {
             list = MainFrame.getInstance().getReservationService().getTopRatedCompanies();
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
-        List<CompanyDto> content = list.getContent();
+        List<CompanyAverageRate> content = list.getContent();
         Object [][] data = new Object[50][50];
         int k=0;
-        for (CompanyDto dto : content)
-            data[k++] = new Object[]{dto.getId(), dto.getManagerId(), dto.getName(), dto.getCity()};
+        for (CompanyAverageRate dto : content)
+            data[k++] = new Object[]{dto.getCompanyName(), dto.getAverageRate(), dto.getNumberOfReviews()};
 
-        String[] header = {"id", "Manager id", "Name", "City"};
+        String[] header = {"Company name", "Average rate", "Number of reviews"};
         MyTable table = new MyTable(header, data);
 
         JPanel panel = new JPanel(new BorderLayout());

@@ -116,13 +116,10 @@ public class ReservationService {
         throw new IOException();
     }
     public void deleteReservation(String reservationId) throws IOException {
-        HttpUrl.Builder httpBuilder = HttpUrl.parse(URL + "/reservations").newBuilder();
-        httpBuilder.addQueryParameter("id", reservationId);
         String token = MainFrame.getInstance().getToken();
 
-
         Request request = new Request.Builder()
-                .url(httpBuilder.build())
+                .url(URL + "/reservations" + "/" + reservationId )
                 .addHeader("authorization", "Bearer " + token)
                 .delete()
                 .build();
@@ -139,6 +136,7 @@ public class ReservationService {
     public ReviewListDto getReviews() throws IOException {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String token = MainFrame.getInstance().getToken();
+
 
         Request request = new Request.Builder()
                 .url(URL + "/reviews")

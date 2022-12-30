@@ -106,6 +106,10 @@ public class BookVehicleClicked implements ActionListener {
                 ReservationDto reservationDto = new ReservationDto(Long.valueOf(vehicleIdTa.getText()), startToSqlDate, endToSqlDate);
                 MainFrame.getInstance().getReservationService().createReservation(reservationDto);
 
+                vehicleIdTa.setText("");
+                startDateTa.setText("");
+                endDateTa.setText("");
+                 
             } catch ( ParseException | IOException ex) {
                 throw new RuntimeException();
             }

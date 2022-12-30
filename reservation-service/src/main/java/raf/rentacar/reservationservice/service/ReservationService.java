@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +146,6 @@ public class ReservationService {
                 );
 
         DiscountDto discountDto = discountDtoResponseEntity.getBody();
-        System.out.println("RESERVATION CREATION - discount value: "+discountDto.getDiscount());
 
         Vehicle vehicle = vehicleRepository.findById(reservationDto.getVehicleId())
                 .orElseThrow(() -> new NotFoundException(String.format("The vehicle with id: %d is not found!", reservationDto.getVehicleId())));
@@ -163,51 +163,26 @@ public class ReservationService {
         reservation.setTotalPrice(totalPrice);
         reservationRepository.save(reservation);
 
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        requestHeaders.add("Authorization", authorization);
+
+        Integer days = new Integer((int) daysDiff);
+
+        //request entity is created with request body and headers
+        HttpEntity<Integer> requestEntity = new HttpEntity<>(days, requestHeaders);
+
         Map<String, Long> params = new HashMap<>();
-        params.put("daysDiff", daysDiff);
+        params.put("numberOfDays", daysDiff);
 
         userServiceRestTemplate.exchange(
                 "/users/increment-days/"+clientId,
                 HttpMethod.PUT,
-                null,
-                ResponseEntity.class,
-                params
+                requestEntity,
+                ResponseDto.class
         );
 
-        /*
-
-HttpHeaders headers = new HttpHeaders();
-headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-HttpEntity<?> entity = new HttpEntity<>(headers);
-
-String urlTemplate = UriComponentsBuilder.fromHttpUrl(url)
-        .queryParam("msisdn", "{msisdn}")
-        .queryParam("email", "{email}")
-        .queryParam("clientVersion", "{clientVersion}")
-        .queryParam("clientType", "{clientType}")
-        .queryParam("issuerName", "{issuerName}")
-        .queryParam("applicationName", "{applicationName}")
-        .encode()
-        .toUriString();
-
-Map<String, ?> params = new HashMap<>();
-params.put("msisdn", msisdn);
-params.put("email", email);
-params.put("clientVersion", clientVersion);
-params.put("clientType", clientType);
-params.put("issuerName", issuerName);
-params.put("applicationName", applicationName);
-
-HttpEntity<String> response = restOperations.exchange(
-        urlTemplate,
-        HttpMethod.GET,
-        entity,
-        String.class,
-        params
-);
-
-
-         */
         MessageTransferDto messageTransferDto = new MessageTransferDto(
             firstname,
             lastname,

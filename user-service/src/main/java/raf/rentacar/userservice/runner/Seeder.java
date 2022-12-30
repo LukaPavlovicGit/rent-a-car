@@ -38,9 +38,9 @@ public class Seeder implements CommandLineRunner {
         roleRepository.save(roleClient);
 
         //Insert ranks
-        Rank silver = new Rank("SILVER", 0, 2, 5);
-        Rank gold = new Rank("GOLD", 2, 5, 10);
-        Rank platinum = new Rank("PLATINUM",5, Integer.MAX_VALUE, 20);
+        Rank silver = new Rank("SILVER", 0, 15, 5);
+        Rank gold = new Rank("GOLD", 15, 40, 10);
+        Rank platinum = new Rank("PLATINUM",40, Integer.MAX_VALUE, 20);
         rankRepository.save(silver);
         rankRepository.save(gold);
         rankRepository.save(platinum);

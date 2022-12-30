@@ -56,7 +56,7 @@ public class CancelReservationClicked implements ActionListener {
         resIdTa.setBounds(320, 320,40, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(resIdTa);
 
-        JButton cancelBtn = new JButton("CANCEL");
+        JButton cancelBtn = new JButton("DELETE");
         cancelBtn.setForeground(Color.WHITE);
         cancelBtn.setBackground(Color.RED);
         cancelBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));

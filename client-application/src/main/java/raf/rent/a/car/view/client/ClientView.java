@@ -71,6 +71,11 @@ public class ClientView extends MyPanel {
         reservationServiceJMenu.add(updateReview);
         updateReview.addActionListener(new UpdateReviewClicked());
 
+        JMenuItem deleteReview = new JMenuItem("Delete review");
+        deleteReview.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(deleteReview);
+        deleteReview.addActionListener(new DeleteReviewClicked());
+
         // notification service
         JMenu notificationServiceJMenu = new JMenu("Notification service");
         notificationServiceJMenu.setForeground(Color.BLACK);

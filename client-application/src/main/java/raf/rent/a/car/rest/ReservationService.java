@@ -119,7 +119,7 @@ public class ReservationService {
         String token = MainFrame.getInstance().getToken();
 
         Request request = new Request.Builder()
-                .url(URL + "/reservations" + "/" + reservationId )
+                .url(URL + "/reservations/" + reservationId )
                 .addHeader("authorization", "Bearer " + token)
                 .delete()
                 .build();
@@ -378,5 +378,23 @@ public class ReservationService {
 
         if (!response.isSuccessful())
             throw new IOException();
+    }
+
+    public void deleteReview(String reviewId) throws IOException {
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/reviews/" + reviewId)
+                .addHeader("authorization", "Bearer " + token)
+                .delete()
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (response.code() == 200)
+            return;
+
+        throw new IOException();
     }
 }

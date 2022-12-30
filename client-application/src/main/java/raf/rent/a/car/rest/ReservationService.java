@@ -195,6 +195,27 @@ public class ReservationService {
         throw new IOException();
     }
 
+    public VehiclesListDto getAvailableVehicles(AvailableVehiclesFilterDto filterDto) throws IOException {
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(filterDto));
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/vehicles/available-vehicles")
+                .addHeader("authorization", "Bearer " + token)
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, VehiclesListDto.class);
+
+        throw new IOException();
+    }
+
     public void createCompany(CompanyDto companyDto) throws IOException {
         RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(companyDto));
         String token = MainFrame.getInstance().getToken();

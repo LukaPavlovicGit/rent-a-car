@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import raf.rentacar.reservationservice.dto.AvailableVehiclesFilterDto;
 import raf.rentacar.reservationservice.dto.CompanyDto;
 import raf.rentacar.reservationservice.dto.VehicleDto;
 import raf.rentacar.reservationservice.secutiry.CheckSecurity;
@@ -39,6 +40,13 @@ public class VehicleController {
     public ResponseEntity<VehicleDto> getVehicle(@RequestHeader("Authorization") String authorization,
                                                  @PathVariable("id") Long id){
         return new ResponseEntity<>(vehicleService.getVehicle(authorization, id), HttpStatus.OK);
+    }
+
+    @PostMapping("/available-vehicles")
+    @CheckSecurity(roles = {"ROLE_CLIENT"})
+    public ResponseEntity<Page<VehicleDto>> getAvailableVehicles(@RequestHeader("Authorization") String authorization,
+                                                                 @RequestBody AvailableVehiclesFilterDto filterDto){
+        return new ResponseEntity<>(vehicleService.getAvailableVehicles(filterDto), HttpStatus.OK);
     }
 
     @PostMapping

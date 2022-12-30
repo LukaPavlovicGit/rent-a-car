@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raf.rentacar.reservationservice.domain.Company;
 import raf.rentacar.reservationservice.domain.Vehicle;
+import raf.rentacar.reservationservice.dto.AvailableVehiclesFilterDto;
 import raf.rentacar.reservationservice.dto.VehicleDto;
 import raf.rentacar.reservationservice.exception.NotFoundException;
 import raf.rentacar.reservationservice.exception.UnauthorizedOperation;
 import raf.rentacar.reservationservice.mapper.Mapper;
 import raf.rentacar.reservationservice.repository.CompanyRepository;
+import raf.rentacar.reservationservice.repository.ReservationRepository;
 import raf.rentacar.reservationservice.repository.VehicleRepository;
 import raf.rentacar.reservationservice.secutiry.tokenService.TokenService;
 
@@ -27,14 +29,19 @@ public class VehicleService {
 
     private VehicleRepository vehicleRepository;
     private CompanyRepository companyRepository;
+    private ReservationService reservationService;
     private TokenService tokenService;
     private Mapper mapper;
+    private final ReservationRepository reservationRepository;
 
-    public VehicleService(VehicleRepository vehicleRepository, CompanyRepository companyRepository, TokenService tokenService, Mapper mapper) {
+    public VehicleService(VehicleRepository vehicleRepository, CompanyRepository companyRepository, ReservationService reservationService,
+                          TokenService tokenService, Mapper mapper, ReservationRepository reservationRepository) {
         this.vehicleRepository = vehicleRepository;
         this.companyRepository = companyRepository;
+        this.reservationService = reservationService;
         this.tokenService = tokenService;
         this.mapper = mapper;
+        this.reservationRepository = reservationRepository;
     }
 
     public Page<VehicleDto> getVehicles(Pageable pageable) {
@@ -75,6 +82,20 @@ public class VehicleService {
 
         return mapper.vehicleToVehicleDto(vehicle);
     }
+    public Page<VehicleDto> getAvailableVehicles(AvailableVehiclesFilterDto filterDto) {
+        List<Vehicle> ans = new ArrayList<>();
+        for(Vehicle vehicle : vehicleRepository.findAll()){
+            if(filterDto.getCompanyName() != null && !filterDto.getCompanyName().equals("") && !vehicle.getCompany().getName().equals(filterDto.getCompanyName()))
+                continue;
+            if(filterDto.getCity() != null && !filterDto.getCity().equals("") && !vehicle.getCompany().getCity().equals(filterDto.getCity()))
+                continue;
+            if(!reservationService.isAvailableVehicle(vehicle.getId(), filterDto.getStart(), filterDto.getEnd()))
+                continue;
+            ans.add(vehicle);
+        }
+        return new PageImpl<>(ans.stream().map(mapper::vehicleToVehicleDto).collect(Collectors.toList()));
+    }
+
     public VehicleDto createVehicle(String authorization, VehicleDto vehicleDto) {
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long managerId = claims.get("id", Integer.class).longValue();

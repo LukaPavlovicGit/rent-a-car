@@ -119,7 +119,7 @@ public class ReservationService {
         String token = MainFrame.getInstance().getToken();
 
         Request request = new Request.Builder()
-                .url(URL + "/reservations/" + reservationId )
+                .url(URL + "/reservations/cancel-reservation/" + reservationId )
                 .addHeader("authorization", "Bearer " + token)
                 .delete()
                 .build();

@@ -20,7 +20,7 @@ public class BookVehicleClicked implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainFrame.getInstance().clearContentPanel();
-        VehiclesListDto list = null;
+        VehiclesListDto list;
         try {
             list = MainFrame.getInstance().getReservationService().getVehicles();
         } catch (IOException ex) {

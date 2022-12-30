@@ -52,7 +52,7 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.createReservation(authorization, reservationDto), HttpStatus.OK);
     }
 
-    @PutMapping("/cancel-reservation/{id}")
+    @DeleteMapping("/cancel-reservation/{id}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<GetReservationDto> cancelReservation(@RequestHeader("Authorization") String authorization,
                                                                @PathVariable("id") Long id) {
@@ -67,7 +67,7 @@ public class ReservationController {
     }
 
     @DeleteMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_MANAGER", "ROLE_CLIENT"})
+    @CheckSecurity(roles = {"ROLE_MANAGER"})
     public ResponseEntity<GetReservationDto> deleteReservation(@RequestHeader("Authorization") String authorization,
                                                                @PathVariable("id") Long id) {
         return new ResponseEntity<>(reservationService.deleteReservation(authorization, id), HttpStatus.OK);

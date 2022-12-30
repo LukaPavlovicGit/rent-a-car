@@ -173,9 +173,6 @@ public class ReservationService {
         //request entity is created with request body and headers
         HttpEntity<Integer> requestEntity = new HttpEntity<>(days, requestHeaders);
 
-        Map<String, Long> params = new HashMap<>();
-        params.put("numberOfDays", daysDiff);
-
         userServiceRestTemplate.exchange(
                 "/users/increment-days/"+clientId,
                 HttpMethod.PUT,
@@ -219,12 +216,21 @@ public class ReservationService {
         long timeDiff = Math.abs(end.getTime() - start.getTime());
         long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 
+
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        requestHeaders.add("Authorization", authorization);
+
+        Integer days = new Integer((int) daysDiff);
+
+        HttpEntity<Integer> requestEntity = new HttpEntity<>(days, requestHeaders);
+
         userServiceRestTemplate.exchange(
                 "/users/decrement-days/"+clientId,
                 HttpMethod.PUT,
-                null,
-                ResponseEntity.class,
-                (int) daysDiff
+                requestEntity,
+                ResponseDto.class
         );
         MessageTransferDto messageTransferDto = new MessageTransferDto(
                 firstname,

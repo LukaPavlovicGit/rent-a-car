@@ -47,8 +47,8 @@ public class EmailListener {
         String subject = email.getSubject();
 
         emailService.sendEmail(destination, subject, messageToSend);
-
-        sentEmailRepository.save(new SentEmail("account_activation", destination, subject, messageToSend, new Date(System.currentTimeMillis())));
+//String type, String subject, String message, String destinationEmail, Date dateSent
+        sentEmailRepository.save(new SentEmail("account_activation", subject, messageToSend, destination, new Date(System.currentTimeMillis())));
     }
     @JmsListener(destination = "${destination.password.change}", concurrency = "5-10")
     public void sendPasswordChangeEmail(Message message) throws JMSException {
@@ -67,7 +67,7 @@ public class EmailListener {
 
         emailService.sendEmail(destination, subject, messageToSend);
 
-        sentEmailRepository.save(new SentEmail("change_password", destination, subject, messageToSend, new Date(System.currentTimeMillis())));
+        sentEmailRepository.save(new SentEmail("change_password", subject, messageToSend, destination, new Date(System.currentTimeMillis())));
     }
     @JmsListener(destination = "${destination.reservation}", concurrency = "5-10")
     public void sendReservationEmail(Message message) throws JMSException {
@@ -87,11 +87,10 @@ public class EmailListener {
 
         emailService.sendEmail(destination, subject, messageToSend);
 
-        sentEmailRepository.save(new SentEmail("reservation_successful", destination, subject, messageToSend, new Date(System.currentTimeMillis())));
+        sentEmailRepository.save(new SentEmail("reservation_successful", subject, messageToSend, destination, new Date(System.currentTimeMillis())));
     }
-    @JmsListener(destination = "${destination.reservation.cancellation}", concurrency = "5-10")
+    @JmsListener(destination = "reservation_cancellation_queue", concurrency = "5-10")
     public void sendReservationCancellation(Message message) throws JMSException {
-
         MessageTransferDto messageTransferDto = messageHelper.getMessage(message, MessageTransferDto.class);
 
         Email email = emailRepository.findNotificationByType("reservation_cancellation")
@@ -107,7 +106,7 @@ public class EmailListener {
 
         emailService.sendEmail(destination, subject, messageToSend);
 
-        sentEmailRepository.save(new SentEmail("reservation_cancellation", destination, subject, messageToSend, new Date(System.currentTimeMillis())));
+        sentEmailRepository.save(new SentEmail("reservation_cancellation", subject, messageToSend, destination, new Date(System.currentTimeMillis())));
     }
     @JmsListener(destination = "${destination.reservation.reminder}", concurrency = "5-10")
     public void sendReservationReminder(Message message) throws JMSException {
@@ -128,7 +127,7 @@ public class EmailListener {
 
         emailService.sendEmail(destination, subject, messageToSend);
 
-        sentEmailRepository.save(new SentEmail("reservation_reminder", destination, subject, messageToSend, new Date(System.currentTimeMillis())));
+        sentEmailRepository.save(new SentEmail("reservation_reminder", subject, messageToSend, destination, new Date(System.currentTimeMillis())));
     }
 
 }

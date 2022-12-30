@@ -69,7 +69,7 @@ public class ClientView extends MyPanel {
         JMenuItem updateReview = new JMenuItem("Update review");
         updateReview.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(updateReview);
-        updateReview.addActionListener(new CreateReviewClicked());
+        updateReview.addActionListener(new UpdateReviewClicked());
 
         // notification service
         JMenu notificationServiceJMenu = new JMenu("Notification service");

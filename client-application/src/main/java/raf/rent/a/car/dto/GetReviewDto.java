@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetReviewDto {
+    private Long id;
     private Integer rate;
     private String comment;
     private String companyName;

@@ -77,6 +77,13 @@ public class ReviewService {
         return new PageImpl<>(reviewList);
     }
 
+    public Page<GetReviewDto> getReviewsByClient(String authorization){
+        Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
+        Long userId = claims.get("id", Integer.class).longValue();
+        List<GetReviewDto> reviewList = reviewRepository.findAllByUserId(userId).stream().map(mapper::reviewToReviewDto).collect(Collectors.toList());
+        return new PageImpl<>(reviewList);
+    }
+
     public Page<CompanyAverageRate> getTopRatedCompanies(){
         List<Review> reviewList = reviewRepository.findAll();
         Map<Company, Integer> sumMap = new HashMap<>();

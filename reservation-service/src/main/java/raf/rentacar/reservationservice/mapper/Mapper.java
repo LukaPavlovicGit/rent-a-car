@@ -30,7 +30,7 @@ public class Mapper {
         return new Reservation(reservationDto.getVehicleId(),reservationDto.getStart(),reservationDto.getEnd());
     }
     public GetReviewDto reviewToReviewDto(Review review){
-        return new GetReviewDto(review.getRate(),review.getComment(),review.getCompany().getName(),review.getCompany().getCity());
+        return new GetReviewDto(review.getId(),review.getRate(),review.getComment(),review.getCompany().getName(),review.getCompany().getCity());
     }
     public Review reviewDtoToReview(PostReviewDto postReviewDto){
         return new Review(postReviewDto.getRate(),postReviewDto.getComment());

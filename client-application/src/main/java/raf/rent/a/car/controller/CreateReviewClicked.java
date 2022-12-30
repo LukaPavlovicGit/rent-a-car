@@ -38,45 +38,52 @@ public class CreateReviewClicked implements ActionListener {
         MyTable table = new MyTable(header, data);
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBounds(0, 0, 1060, 150);
+        panel.setBounds(0, 100, 1060, 150);
         panel.add(table.getTableHeader(), BorderLayout.NORTH);
         panel.add(table, BorderLayout.CENTER);
+        MainFrame.getInstance().getCurrentPanel().getContentPanel().add(panel);
+
+        JLabel lbl = new JLabel("ALL COMPANIES");
+        lbl.setForeground(Color.RED);
+        lbl.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        lbl.setBounds(325, 20, 600, 35);
+        MainFrame.getInstance().getCurrentPanel().getContentPanel().add(lbl);
 
         JLabel companyIdLbl = new JLabel("Company id");
         companyIdLbl.setForeground(Color.BLACK);
         companyIdLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        companyIdLbl.setBounds(104, 250, 100, 29);
+        companyIdLbl.setBounds(104, 270, 150, 29);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(companyIdLbl);
 
         JTextArea companyIdTa = new JTextArea();
         companyIdTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        companyIdTa.setBounds(250, 250,166, 37);
+        companyIdTa.setBounds(250, 270,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(companyIdTa);
 
         JLabel rateLbl = new JLabel("Rate");
         rateLbl.setForeground(Color.BLACK);
         rateLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        rateLbl.setBounds(104, 300, 150, 29);
+        rateLbl.setBounds(104, 320, 150, 29);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(rateLbl);
 
         JTextArea rateTa = new JTextArea();
         rateTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        rateTa.setBounds(250, 300,166, 37);
+        rateTa.setBounds(250, 320,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(rateTa);
 
         JLabel commentLbl = new JLabel("Comment");
         commentLbl.setForeground(Color.BLACK);
         commentLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        commentLbl.setBounds(104, 350, 100, 29);
+        commentLbl.setBounds(104, 370, 100, 29);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(commentLbl);
 
         JTextArea commentTa = new JTextArea();
         commentTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        commentTa.setBounds(250, 350,166, 37);
+        commentTa.setBounds(250, 370,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(commentTa);
 
         JButton createBtn = new JButton("Create");
-        createBtn.setBounds(510, 340,180, 50);
+        createBtn.setBounds(510, 320,180, 50);
         createBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
         createBtn.setForeground(Color.GREEN);
         createBtn.setBackground(Color.BLACK);
@@ -97,7 +104,7 @@ public class CreateReviewClicked implements ActionListener {
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(createBtn);
 
         JButton backBtn = new JButton("Back");
-        backBtn.setBounds(730, 340,180, 50);
+        backBtn.setBounds(730, 320,180, 50);
         backBtn.setFont(new Font("Segoe UI", Font.BOLD, 20));
         backBtn.setForeground(Color.WHITE);
         backBtn.setBackground(Color.BLACK);

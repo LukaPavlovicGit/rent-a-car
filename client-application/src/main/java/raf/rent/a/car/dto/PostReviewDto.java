@@ -14,4 +14,9 @@ public class PostReviewDto {
     private Long companyId;
     private Integer rate;
     private String comment;
+
+    public PostReviewDto(Integer rate, String comment) {
+        this.rate = rate;
+        this.comment = comment;
+    }
 }

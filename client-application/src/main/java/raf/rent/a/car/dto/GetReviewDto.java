@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewListDto {
-    private List<ReviewDto> content = new ArrayList<>();
+public class GetReviewDto {
+    private Integer rate;
+    private String comment;
+    private String companyName;
+    private String city;
 }

@@ -50,12 +50,11 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.getTopRatedCompanies(), HttpStatus.OK);
     }
 
-    @PostMapping("/{companyId}")
+    @PostMapping
     @CheckSecurity(roles = {"ROLE_CLIENT"})
     public ResponseEntity<GetReviewDto> createCompanyReview(@RequestHeader("Authorization") String authorization,
-                                                            @PathVariable Long companyId,
                                                             @RequestBody PostReviewDto postReviewDto){
-        return new ResponseEntity<>(reviewService.createCompanyReview(authorization, companyId, postReviewDto), HttpStatus.OK);
+        return new ResponseEntity<>(reviewService.createCompanyReview(authorization, postReviewDto), HttpStatus.OK);
     }
     @PutMapping("/{reviewId}")
     @CheckSecurity(roles = {"ROLE_CLIENT"})

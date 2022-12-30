@@ -31,6 +31,7 @@ public class CancelReservationClicked implements ActionListener {
 
         String[] header = {"Id", "User id", "Vehicle id", "Start", "End", "Total price"};
         MyTable table = new MyTable(header, data);
+        table.setMyTableHeaderBackground(Color.GREEN);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBounds(0, 100, 1060, 150);

@@ -1,10 +1,8 @@
 package raf.rent.a.car.controller;
 
 import raf.rent.a.car.MainFrame;
-import raf.rent.a.car.dto.ReservationDto;
-import raf.rent.a.car.dto.ReservationListDto;
-import raf.rent.a.car.dto.ReviewDto;
-import raf.rent.a.car.dto.ReviewListDto;
+import raf.rent.a.car.dto.GetReviewDto;
+import raf.rent.a.car.dto.GetReviewListDto;
 import raf.rent.a.car.utils.MyTable;
 
 import javax.swing.*;
@@ -19,17 +17,17 @@ public class AllReviewsClicked implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainFrame.getInstance().clearContentPanel();
-        ReviewListDto list = null;
+        GetReviewListDto list = null;
         try {
             list = MainFrame.getInstance().getReservationService().getReviews();
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
-        List<ReviewDto> content = list.getContent();
+        List<GetReviewDto> content = list.getContent();
         Object [][] data = new Object[50][50];
         int k=0;
-        for (ReviewDto dto : content)
+        for (GetReviewDto dto : content)
             data[k++] = new Object[]{dto.getRate(), dto.getComment(), dto.getCompanyName(), dto.getCity()};
 
         String[] header = {"Rate", "Comment", "Company name", "City"};

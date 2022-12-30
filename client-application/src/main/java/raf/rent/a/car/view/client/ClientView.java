@@ -18,7 +18,7 @@ public class ClientView extends MyPanel {
         this.setBounds(450, 190, 1014, 597);
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
         this.setLayout(null);
-        this.setBackground(Color.GREEN);
+        this.setBackground(Color.YELLOW);
         this.add(getContentPanel());
         setContentPanelBackground(Color.lightGray);
 
@@ -59,6 +59,17 @@ public class ClientView extends MyPanel {
         availableVehicles.setFont(new Font("Segoe UI", Font.BOLD, 15));
         reservationServiceJMenu.add(availableVehicles);
         availableVehicles.addActionListener(new AvailableVehiclesClicked());
+
+            //reviews
+        JMenuItem createReview = new JMenuItem("Create review");
+        createReview.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(createReview);
+        createReview.addActionListener(new CreateReviewClicked());
+
+        JMenuItem updateReview = new JMenuItem("Update review");
+        updateReview.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(updateReview);
+        updateReview.addActionListener(new CreateReviewClicked());
 
         // notification service
         JMenu notificationServiceJMenu = new JMenu("Notification service");

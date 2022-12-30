@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewDto {
+public class PostReviewDto {
+
+    private Long companyId;
     private Integer rate;
     private String comment;
-    private String companyName;
-    private String city;
 }

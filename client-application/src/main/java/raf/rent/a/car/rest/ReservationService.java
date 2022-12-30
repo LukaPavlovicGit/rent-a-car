@@ -133,7 +133,7 @@ public class ReservationService {
         throw new IOException();
     }
 
-    public ReviewListDto getReviews() throws IOException {
+    public GetReviewListDto getReviews() throws IOException {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String token = MainFrame.getInstance().getToken();
 
@@ -149,7 +149,7 @@ public class ReservationService {
         response.body().close();
 
         if (response.code() == 200)
-            return objectMapper.readValue(json, ReviewListDto.class);
+            return objectMapper.readValue(json, GetReviewListDto.class);
 
         throw new IOException();
     }
@@ -311,6 +311,24 @@ public class ReservationService {
 
         Request request = new Request.Builder()
                 .url(URL + "/reservations")
+                .addHeader("authorization", "Bearer " + token)
+                .post(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (!response.isSuccessful())
+            throw new IOException();
+    }
+
+    public void createReview(PostReviewDto review) throws IOException {
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(review));
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/reviews")
                 .addHeader("authorization", "Bearer " + token)
                 .post(body)
                 .build();

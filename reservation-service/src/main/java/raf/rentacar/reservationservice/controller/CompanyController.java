@@ -22,7 +22,7 @@ public class CompanyController {
     }
 
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_CLIENT"})
     public ResponseEntity<Page<CompanyDto>> getCompanies(@RequestHeader("Authorization") String authorization,
                                                          @ApiIgnore Pageable pageable) {
         return new ResponseEntity<>(companyService.getCompanies(pageable), HttpStatus.OK);

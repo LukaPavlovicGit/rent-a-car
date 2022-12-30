@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostReviewDto {
 
+    private Long companyId;
     private Integer rate;
     private String comment;
 }

@@ -33,6 +33,7 @@ public class TopRatedCompaniesClicked implements ActionListener {
 
         String[] header = {"Company name", "Average rate", "Number of reviews"};
         MyTable table = new MyTable(header, data);
+        table.setMyTableHeaderBackground(Color.lightGray);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBounds(0, 0, 1060, 350);

@@ -116,11 +116,11 @@ public class ReviewService {
         return new PageImpl<>(companyAverageRates);
     }
 
-    public GetReviewDto createCompanyReview(String authorization, Long companyId, PostReviewDto reviewDto){
+    public GetReviewDto createCompanyReview(String authorization, PostReviewDto reviewDto){
         Claims claims = tokenService.parseToken(authorization.split(" ")[1]);
         Long userId = claims.get("id", Integer.class).longValue();
-        Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new NotFoundException(String.format("Company with id: %d not found!", companyId)));
+        Company company = companyRepository.findById(reviewDto.getCompanyId())
+                .orElseThrow(() -> new NotFoundException(String.format("Company with id: %d not found!", reviewDto.getCompanyId())));
         Review review = mapper.reviewDtoToReview(reviewDto);
         review.setUserId(userId);
         review.setCompany(company);

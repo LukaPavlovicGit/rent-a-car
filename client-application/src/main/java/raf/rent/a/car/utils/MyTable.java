@@ -22,4 +22,8 @@ public class MyTable extends JTable {
         setBackground(Color.DARK_GRAY);
         setFont(new Font("Segoe UI", Font.BOLD, 17));
     }
+
+    public void setMyTableHeaderBackground(Color color){
+        getTableHeader().setBackground(color);
+    }
 }

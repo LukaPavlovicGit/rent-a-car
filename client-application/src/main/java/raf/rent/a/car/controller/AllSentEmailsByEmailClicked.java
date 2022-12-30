@@ -41,7 +41,7 @@ public class AllSentEmailsByEmailClicked implements ActionListener {
 
         JTextArea byTypeTa = new JTextArea();
         byTypeTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        byTypeTa.setBounds(215, 180,166, 37);
+        byTypeTa.setBounds(250, 180,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(byTypeTa);
 
         JLabel byEmailLbl = new JLabel("By email");
@@ -52,13 +52,13 @@ public class AllSentEmailsByEmailClicked implements ActionListener {
 
         JTextArea byEmailTa = new JTextArea();
         byEmailTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        byEmailTa.setBounds(215, 230,166, 37);
+        byEmailTa.setBounds(250, 230,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(byEmailTa);
 
         JLabel youngerThanLbl = new JLabel("Younger than");
         youngerThanLbl.setForeground(Color.BLACK);
         youngerThanLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        youngerThanLbl.setBounds(104, 280, 100, 29);
+        youngerThanLbl.setBounds(104, 280, 150, 29);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(youngerThanLbl);
 
         JLabel lbl1 = new JLabel("(yyyy-MM-dd)");
@@ -69,7 +69,7 @@ public class AllSentEmailsByEmailClicked implements ActionListener {
 
         JTextArea youngerThanTa = new JTextArea();
         youngerThanTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        youngerThanTa.setBounds(215, 280,166, 37);
+        youngerThanTa.setBounds(250, 280,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(youngerThanTa);
 
         JLabel olderThanLbl = new JLabel("Older than");
@@ -86,7 +86,7 @@ public class AllSentEmailsByEmailClicked implements ActionListener {
 
         JTextArea olderThanTa = new JTextArea();
         olderThanTa.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        olderThanTa.setBounds(215, 330,166, 37);
+        olderThanTa.setBounds(250, 330,166, 37);
         MainFrame.getInstance().getCurrentPanel().getContentPanel().add(olderThanTa);
 
         JButton fetchBtn = new JButton("Fetch");

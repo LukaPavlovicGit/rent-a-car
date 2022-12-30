@@ -40,6 +40,26 @@ public class ClientView extends MyPanel {
         reservationServiceJMenu.setFont(new Font("Segoe UI", Font.BOLD, 16));
         menuBar.add(reservationServiceJMenu);
 
+        JMenuItem createReservation = new JMenuItem("Book a vehicle");
+        createReservation.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(createReservation);
+        createReservation.addActionListener(new BookVehicleClicked());
+
+        JMenuItem cancelReservation = new JMenuItem("Cancel reservation");
+        cancelReservation.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(cancelReservation);
+        cancelReservation.addActionListener(new CancelReservationClicked());
+
+        JMenuItem topRatedCompanies = new JMenuItem("Top rated companies");
+        topRatedCompanies.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(topRatedCompanies);
+        topRatedCompanies.addActionListener(new TopRatedCompaniesClicked());
+
+        JMenuItem availableVehicles = new JMenuItem("Available vehicles");
+        availableVehicles.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        reservationServiceJMenu.add(availableVehicles);
+        availableVehicles.addActionListener(new AvailableVehiclesClicked());
+
         // notification service
         JMenu notificationServiceJMenu = new JMenu("Notification service");
         notificationServiceJMenu.setForeground(Color.BLACK);

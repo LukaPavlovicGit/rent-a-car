@@ -266,4 +266,22 @@ public class ReservationService {
 
         throw new IOException();
     }
+
+    public void createReservation(ReservationDto reservationDto) throws IOException {
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(reservationDto));
+        String token = MainFrame.getInstance().getToken();
+
+        Request request = new Request.Builder()
+                .url(URL + "/reservations")
+                .addHeader("authorization", "Bearer " + token)
+                .post(body)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        response.body().close();
+
+        if (!response.isSuccessful())
+            throw new IOException();
+    }
 }

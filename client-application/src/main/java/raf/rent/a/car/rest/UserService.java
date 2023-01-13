@@ -130,6 +130,26 @@ public class UserService {
         throw new IOException();
     }
 
+    public UserDto updateClient(UpdateClientDto updateClientDto) throws IOException {
+        String token = MainFrame.getInstance().getToken();
+        RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(updateClientDto));
+
+        Request request = new Request.Builder()
+                .url(URL + "/users/update-client")
+                .addHeader("authorization", "Bearer " + token)
+                .put(body)
+                .build();
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        String json = response.body().string();
+        response.body().close();
+
+        if (response.code() == 200)
+            return objectMapper.readValue(json, UserDto.class);
+
+        throw new IOException();
+    }
+
     public void passwordChange(PasswordDto passwordDto) throws IOException {
         String token = MainFrame.getInstance().getToken();
         RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(passwordDto));

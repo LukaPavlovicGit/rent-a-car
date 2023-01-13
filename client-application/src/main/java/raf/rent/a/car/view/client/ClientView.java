@@ -102,7 +102,7 @@ public class ClientView extends MyPanel {
         JMenuItem profileUpdate = new JMenuItem("Profile update");
         profileUpdate.setFont(new Font("Segoe UI", Font.BOLD, 15));
         myAccountJMenu.add(profileUpdate);
-        profileUpdate.addActionListener(new AdminProfileUpdateClicked());
+        profileUpdate.addActionListener(new ClientProfileUpdateClicked());
 
         JMenuItem changePassword = new JMenuItem("Password change");
         changePassword.setFont(new Font("Segoe UI", Font.BOLD, 15));

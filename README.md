@@ -1,2 +1,2 @@
-# [Priject specification](CarRental_specification.pdf)
+# [Project specification](CarRental_specification.pdf)
 
